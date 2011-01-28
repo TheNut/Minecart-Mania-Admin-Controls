@@ -166,7 +166,15 @@ public class AdminCommands {
 						ChatUtils.sendMultilineMessage(player, "Key '" + key + "' set to 'null'", ChatColor.GREEN.toString());
 					}
 					else {
-						if (StringUtils.containsLetters(value)) {
+						if (value.equalsIgnoreCase("true")) {
+							ChatUtils.sendMultilineMessage(player, "Key '" + key + "' set to '" + value + "'", ChatColor.GREEN.toString());
+							MinecartManiaWorld.setConfigurationValue(key, Boolean.TRUE);
+						}
+						else if (value.equalsIgnoreCase("false")) {
+							ChatUtils.sendMultilineMessage(player, "Key '" + key + "' set to '" + value + "'", ChatColor.GREEN.toString());
+							MinecartManiaWorld.setConfigurationValue(key, Boolean.FALSE);
+						}
+						else if (StringUtils.containsLetters(value)) {
 							//save it as a string
 							ChatUtils.sendMultilineMessage(player, "Key '" + key + "' set to '" + value + "'", ChatColor.GREEN.toString());
 							MinecartManiaWorld.setConfigurationValue(key, value);
