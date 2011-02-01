@@ -44,6 +44,7 @@ public class MinecartManiaAdminControls extends JavaPlugin{
 			this.setEnabled(false);
 		}
 		else {
+	        getServer().getPluginManager().registerEvent(Event.Type.PLAYER_ITEM, playerListener, Priority.Normal, this);
 	        getServer().getPluginManager().registerEvent(Event.Type.PLAYER_COMMAND, playerListener, Priority.Normal, this);
 	        getServer().getPluginManager().registerEvent(Event.Type.VEHICLE_ENTER, ejectionListener, Priority.Normal, this);
 	        
