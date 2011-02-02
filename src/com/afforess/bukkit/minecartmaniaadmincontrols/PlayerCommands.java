@@ -29,6 +29,15 @@ public class PlayerCommands {
 		return false;
 	}
 	
+	public static boolean doSetPower(Player player, String command) {
+		if (command.toLowerCase().contains("/setpower")) {
+			MinecartManiaWorld.setBlockIndirectlyPowered(player.getLocation().getBlockX(), player.getLocation().getBlockY(), player.getLocation().getBlockZ(), true);
+			System.out.println("Set Power");
+			return true;
+		}
+		return false;
+	}
+	
 	public static boolean doStopAtSign(Player player, String command) {
 		String split[] = command.toLowerCase().split(" ");
 		if (split[0].contains("/st") && split.length == 2) {

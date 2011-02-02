@@ -6,6 +6,7 @@ import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.event.vehicle.VehicleListener;
+import com.afforess.bukkit.minecartmaniacore.MinecartManiaWorld;
 public class VehicleControl extends VehicleListener{
 	
 	private static final ArrayList<String> blockedFromEnteringMinecarts = new ArrayList<String>();
@@ -23,6 +24,10 @@ public class VehicleControl extends VehicleListener{
 		return blockedFromEnteringMinecarts.contains(name);
 	}
 	
+	public static int getMinecartKillTimer() {
+		return MinecartManiaWorld.getIntValue(MinecartManiaWorld.getConfigurationValue("Empty Minecart Kill Timer"));
+	}
+	
 	
 	 public void onVehicleEnter(VehicleEnterEvent event) {
 		if (event.isCancelled()) {
@@ -36,5 +41,4 @@ public class VehicleControl extends VehicleListener{
     		}
     	}
     }
-
 }

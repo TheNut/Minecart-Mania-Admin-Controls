@@ -76,6 +76,10 @@ public class AdminControlsPlayerListener extends PlayerListener{
 		}
 		
 		if (!event.isCancelled()) {
+			event.setCancelled(PlayerCommands.doSetPower(player, command));
+		}
+		
+		if (!event.isCancelled()) {
 			event.setCancelled(PlayerCommands.doStopAtSign(player, command));
 		}
 		

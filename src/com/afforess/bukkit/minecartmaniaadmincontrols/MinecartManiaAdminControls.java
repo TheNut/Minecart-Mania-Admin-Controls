@@ -5,13 +5,15 @@ import java.util.logging.Logger;
 
 import org.bukkit.Server;
 import org.bukkit.command.Command;
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.afforess.bukkit.minecartmaniacore.Configuration;
 
 
 
@@ -29,7 +31,8 @@ public class MinecartManiaAdminControls extends JavaPlugin{
 	public static Server server;
 	public static PluginDescriptionFile description;
 	private static final AdminControlsPlayerListener playerListener = new AdminControlsPlayerListener();
-	private static final VehicleControl ejectionListener = new VehicleControl();
+	private static final VehicleControl vehicleListener = new VehicleControl();
+	private static final MinecartTimer timer = new MinecartTimer();
 	
 
 	public void onEnable(){
@@ -44,9 +47,11 @@ public class MinecartManiaAdminControls extends JavaPlugin{
 			this.setEnabled(false);
 		}
 		else {
+			Configuration.loadConfiguration(description, SettingList.config);
 	        getServer().getPluginManager().registerEvent(Event.Type.PLAYER_ITEM, playerListener, Priority.Normal, this);
 	        getServer().getPluginManager().registerEvent(Event.Type.PLAYER_COMMAND, playerListener, Priority.Normal, this);
-	        getServer().getPluginManager().registerEvent(Event.Type.VEHICLE_ENTER, ejectionListener, Priority.Normal, this);
+	        getServer().getPluginManager().registerEvent(Event.Type.VEHICLE_ENTER, vehicleListener, Priority.Normal, this);
+	        getServer().getPluginManager().registerEvent(Event.Type.CUSTOM_EVENT, timer, Priority.Normal, this);
 	        
 	        
 	        log.info( pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled!" );
@@ -57,9 +62,9 @@ public class MinecartManiaAdminControls extends JavaPlugin{
 		
 	}
 	
-	public boolean onCommand(Player player, Command c, String s, String[] list) {
-		if (s.contains("reloadconfig")) {
-			//Configuration.loadConfiguration();
+	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
+		if (commandLabel.contains("reloadconfig")) {
+			Configuration.loadConfiguration(description, SettingList.config);
 		}
 		return true;
 	}
