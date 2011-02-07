@@ -18,7 +18,7 @@ public class AdminControlsPlayerListener extends PlayerListener{
 				int oldData = event.getBlockClicked().getData();
 				int data = oldData + 1;
 				if (data > 9) data = 0;
-				MinecartManiaWorld.setBlockData(event.getBlockClicked().getX(), event.getBlockClicked().getY(), event.getBlockClicked().getZ(), data);
+				MinecartManiaWorld.setBlockData(event.getPlayer().getWorld(), event.getBlockClicked().getX(), event.getBlockClicked().getY(), event.getBlockClicked().getZ(), data);
 				event.setCancelled(true);
 			}
 		}

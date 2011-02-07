@@ -30,11 +30,11 @@ public class PlayerCommands {
 	}
 	
 	public static boolean doSetPower(Player player, String command) {
-		if (command.toLowerCase().contains("/setpower")) {
-			MinecartManiaWorld.setBlockIndirectlyPowered(player.getLocation().getBlockX(), player.getLocation().getBlockY(), player.getLocation().getBlockZ(), true);
-			System.out.println("Set Power");
-			return true;
-		}
+		//if (command.toLowerCase().contains("/setpower")) {
+		//	MinecartManiaWorld.setBlockIndirectlyPowered(player.getWorld(), player.getLocation().getBlockX(), player.getLocation().getBlockY(), player.getLocation().getBlockZ(), true);
+		//	System.out.println("Set Power");
+		//	return true;
+		//}
 		return false;
 	}
 	
