@@ -1,3 +1,4 @@
 name: Minecart Mania Admin Controls
-main: com.afforess.bukkit.minecartmaniaadmincontrols.MinecartManiaAdminControls
+main: com.afforess.minecartmaniaadmincontrols.MinecartManiaAdminControls
 version: 0.12
+author: Afforess
