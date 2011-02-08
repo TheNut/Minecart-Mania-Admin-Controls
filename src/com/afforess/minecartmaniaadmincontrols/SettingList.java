@@ -1,4 +1,4 @@
-package com.afforess.bukkit.minecartmaniaadmincontrols;
+package com.afforess.minecartmaniaadmincontrols;
 import com.afforess.bukkit.minecartmaniacore.config.Setting;
 
 public class SettingList {

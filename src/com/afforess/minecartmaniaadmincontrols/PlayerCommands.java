@@ -1,4 +1,4 @@
-package com.afforess.bukkit.minecartmaniaadmincontrols;
+package com.afforess.minecartmaniaadmincontrols;
 
 import java.util.Iterator;
 import java.util.Map.Entry;

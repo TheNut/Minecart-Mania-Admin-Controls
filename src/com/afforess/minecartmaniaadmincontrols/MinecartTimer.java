@@ -1,4 +1,4 @@
-package com.afforess.bukkit.minecartmaniaadmincontrols;
+package com.afforess.minecartmaniaadmincontrols;
 import com.afforess.bukkit.minecartmaniacore.MinecartManiaMinecart;
 import com.afforess.bukkit.minecartmaniacore.event.MinecartManiaListener;
 import com.afforess.bukkit.minecartmaniacore.event.MinecartTimeEvent;

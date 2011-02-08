@@ -1,4 +1,4 @@
-package com.afforess.bukkit.minecartmaniaadmincontrols;
+package com.afforess.minecartmaniaadmincontrols;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
