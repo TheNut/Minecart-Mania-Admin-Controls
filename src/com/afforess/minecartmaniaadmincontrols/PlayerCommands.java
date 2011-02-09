@@ -8,10 +8,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 
-import com.afforess.bukkit.minecartmaniacore.ChatUtils;
-import com.afforess.bukkit.minecartmaniacore.MinecartManiaMinecart;
-import com.afforess.bukkit.minecartmaniacore.MinecartManiaWorld;
-import com.afforess.bukkit.minecartmaniacore.StringUtils;
+import com.afforess.minecartmaniacore.ChatUtils;
+import com.afforess.minecartmaniacore.MinecartManiaMinecart;
+import com.afforess.minecartmaniacore.MinecartManiaWorld;
+import com.afforess.minecartmaniacore.StringUtils;
 
 public class PlayerCommands {
 
@@ -29,15 +29,6 @@ public class PlayerCommands {
 		return false;
 	}
 	
-	public static boolean doSetPower(Player player, String command) {
-		//if (command.toLowerCase().contains("/setpower")) {
-		//	MinecartManiaWorld.setBlockIndirectlyPowered(player.getWorld(), player.getLocation().getBlockX(), player.getLocation().getBlockY(), player.getLocation().getBlockZ(), true);
-		//	System.out.println("Set Power");
-		//	return true;
-		//}
-		return false;
-	}
-	
 	public static boolean doStopAtSign(Player player, String command) {
 		String split[] = command.toLowerCase().split(" ");
 		if (split[0].contains("/st") && split.length == 2) {
@@ -47,6 +38,7 @@ public class PlayerCommands {
 				try {
 					stop = new Integer(Integer.valueOf(StringUtils.getNumber(split[1]))); 
 					minecart.setDataValue("stop at station", stop);
+					ChatUtils.sendMultilineMessage(player, "Destination set to stop #" + stop, ChatColor.GREEN.toString());
 				 }
 				 catch (NumberFormatException e) {
 					 ChatUtils.sendMultilineWarning(player, "Invalid stop number");

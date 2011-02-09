@@ -6,7 +6,7 @@ import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.event.vehicle.VehicleListener;
-import com.afforess.bukkit.minecartmaniacore.MinecartManiaWorld;
+import com.afforess.minecartmaniacore.MinecartManiaWorld;
 public class VehicleControl extends VehicleListener{
 	
 	private static final ArrayList<String> blockedFromEnteringMinecarts = new ArrayList<String>();

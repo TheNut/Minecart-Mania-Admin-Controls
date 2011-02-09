@@ -5,7 +5,7 @@ import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerItemEvent;
 import org.bukkit.event.player.PlayerListener;
 
-import com.afforess.bukkit.minecartmaniacore.MinecartManiaWorld;
+import com.afforess.minecartmaniacore.MinecartManiaWorld;
 
 public class AdminControlsPlayerListener extends PlayerListener{
 	
@@ -73,10 +73,6 @@ public class AdminControlsPlayerListener extends PlayerListener{
 		
 		if (!event.isCancelled()) {
 			event.setCancelled(PlayerCommands.getConfigurationKey(player, command));
-		}
-		
-		if (!event.isCancelled()) {
-			event.setCancelled(PlayerCommands.doSetPower(player, command));
 		}
 		
 		if (!event.isCancelled()) {

@@ -1,7 +1,7 @@
 package com.afforess.minecartmaniaadmincontrols;
-import com.afforess.bukkit.minecartmaniacore.MinecartManiaMinecart;
-import com.afforess.bukkit.minecartmaniacore.event.MinecartManiaListener;
-import com.afforess.bukkit.minecartmaniacore.event.MinecartTimeEvent;
+import com.afforess.minecartmaniacore.MinecartManiaMinecart;
+import com.afforess.minecartmaniacore.event.MinecartManiaListener;
+import com.afforess.minecartmaniacore.event.MinecartTimeEvent;
 
 public class MinecartTimer extends MinecartManiaListener{
 	public void onMinecartTimeEvent(MinecartTimeEvent event) {
