@@ -61,7 +61,7 @@ public class AdminCommands {
 	}
 	
 	public static boolean doKillEmptyCarts(Player player, String command) {
-		if (command.toLowerCase().contains("/killemptycarts")) {
+		if (command.toLowerCase().contains("/clearemptycarts")) {
 			ArrayList<MinecartManiaMinecart> minecartList = MinecartManiaWorld.getMinecartManiaMinecartList();
 			for (MinecartManiaMinecart minecart : minecartList) {
 				if (minecart.isStandardMinecart() && minecart.minecart.getPassenger() == null) {
@@ -74,7 +74,7 @@ public class AdminCommands {
 	}
 	
 	public static boolean doKillPoweredCarts(Player player, String command) {
-		if (command.toLowerCase().contains("/killpoweredcarts")) {
+		if (command.toLowerCase().contains("/clearpoweredcarts")) {
 			ArrayList<MinecartManiaMinecart> minecartList = MinecartManiaWorld.getMinecartManiaMinecartList();
 			for (MinecartManiaMinecart minecart : minecartList) {
 				if (minecart.isPoweredMinecart()) {
@@ -87,7 +87,7 @@ public class AdminCommands {
 	}
 	
 	public static boolean doKillOccupiedCarts(Player player, String command) {
-		if (command.toLowerCase().contains("/killoccupiedcarts")) {
+		if (command.toLowerCase().contains("/clearoccupiedcarts")) {
 			ArrayList<MinecartManiaMinecart> minecartList = MinecartManiaWorld.getMinecartManiaMinecartList();
 			for (MinecartManiaMinecart minecart : minecartList) {
 				if (minecart.isStandardMinecart() && minecart.minecart.getPassenger() != null) {
@@ -100,7 +100,7 @@ public class AdminCommands {
 	}
 	
 	public static boolean doKillStorageCarts(Player player, String command) {
-		if (command.toLowerCase().contains("/killstoragecarts")) {
+		if (command.toLowerCase().contains("/clearstoragecarts")) {
 			ArrayList<MinecartManiaMinecart> minecartList = MinecartManiaWorld.getMinecartManiaMinecartList();
 			for (MinecartManiaMinecart minecart : minecartList) {
 				if (minecart.isStorageMinecart()) {
@@ -113,7 +113,7 @@ public class AdminCommands {
 	}
 	
 	public static boolean doKillAllCarts(Player player, String command) {
-		if (command.toLowerCase().contains("/killallcarts")) {
+		if (command.toLowerCase().contains("/clearallcarts")) {
 			ArrayList<MinecartManiaMinecart> minecartList = MinecartManiaWorld.getMinecartManiaMinecartList();
 			for (MinecartManiaMinecart minecart : minecartList) {
 				minecart.kill();

@@ -63,9 +63,10 @@ public class MinecartManiaAdminControls extends JavaPlugin{
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
+    	System.out.println("CommandLabel: "+commandLabel+" Command: "+command);
 		if (commandLabel.contains("reloadconfig")) {
 			Configuration.loadConfiguration(description, SettingList.config);
 		}
-		return true;
+		return false;
 	}
 }
