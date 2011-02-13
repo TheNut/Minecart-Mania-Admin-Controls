@@ -9,6 +9,7 @@ import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 
 import com.afforess.minecartmaniacore.ChatUtils;
+import com.afforess.minecartmaniacore.DirectionUtils;
 import com.afforess.minecartmaniacore.MinecartManiaMinecart;
 import com.afforess.minecartmaniacore.MinecartManiaWorld;
 import com.afforess.minecartmaniacore.StringUtils;
@@ -105,6 +106,15 @@ public class PlayerCommands {
 			 else {
 				 ChatUtils.sendMultilineWarning(player, "There is no page " + page);
 			 }
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean doCompass(Player player, String command) {
+		if (command.contains("/trucompass")) {
+			DirectionUtils.CompassDirection facingDir = DirectionUtils.getDirectionFromRotation((player.getLocation().getYaw()- 90.0F));
+			player.sendMessage(ChatColor.YELLOW+facingDir.toString());
 			return true;
 		}
 		return false;

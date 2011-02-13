@@ -87,6 +87,9 @@ public class AdminControlsPlayerListener extends PlayerListener{
 			event.setCancelled(PlayerCommands.doMomentumCommand(player, command));
 		}
 		
+		if (!event.isCancelled()) {
+			event.setCancelled(PlayerCommands.doCompass(player, command));
+		}
 		
 		
 	}
