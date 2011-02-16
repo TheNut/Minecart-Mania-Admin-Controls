@@ -6,10 +6,10 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import com.afforess.minecartmaniacore.ChatUtils;
 import com.afforess.minecartmaniacore.MinecartManiaMinecart;
 import com.afforess.minecartmaniacore.MinecartManiaWorld;
-import com.afforess.minecartmaniacore.StringUtils;
+import com.afforess.minecartmaniacore.utils.ChatUtils;
+import com.afforess.minecartmaniacore.utils.StringUtils;
 
 public class AdminCommands {
 	public static boolean doEjectPlayer(Player player, String command) {
@@ -45,7 +45,7 @@ public class AdminCommands {
 						if (p.isInsideVehicle())
 							p.leaveVehicle();
 						
-						VehicleControl.toggleBlockFromEntering(p.getName());
+						VehicleControl.toggleBlockFromEntering(p);
 					}
 				}
 				else {

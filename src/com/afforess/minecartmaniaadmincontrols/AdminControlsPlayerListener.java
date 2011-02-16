@@ -4,7 +4,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerItemEvent;
 import org.bukkit.event.player.PlayerListener;
-
 import com.afforess.minecartmaniacore.MinecartManiaWorld;
 
 public class AdminControlsPlayerListener extends PlayerListener{
@@ -31,7 +30,7 @@ public class AdminControlsPlayerListener extends PlayerListener{
 		}
 		Player player = event.getPlayer();
 		String command = event.getMessage();
-
+		
 		if (player.isOp()) {
 			if (!event.isCancelled()) {
 				event.setCancelled(AdminCommands.doEjectPlayer(player, command));
@@ -76,7 +75,7 @@ public class AdminControlsPlayerListener extends PlayerListener{
 		}
 		
 		if (!event.isCancelled()) {
-			event.setCancelled(PlayerCommands.doStopAtSign(player, command));
+			event.setCancelled(PlayerCommands.doStationCommand(player, command));
 		}
 		
 		if (!event.isCancelled()) {

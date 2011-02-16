@@ -1,7 +1,4 @@
 package com.afforess.minecartmaniaadmincontrols;
-
-import java.util.ArrayList;
-
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
@@ -9,19 +6,17 @@ import org.bukkit.event.vehicle.VehicleListener;
 import com.afforess.minecartmaniacore.MinecartManiaWorld;
 public class VehicleControl extends VehicleListener{
 	
-	private static final ArrayList<String> blockedFromEnteringMinecarts = new ArrayList<String>();
-
-	public static void toggleBlockFromEntering(String name) {
-		if (isBlockedFromEntering(name)) {
-			blockedFromEnteringMinecarts.remove(name);
+	public static void toggleBlockFromEntering(Player player) {
+		if (isBlockedFromEntering(player)) {
+			MinecartManiaWorld.getMinecartManiaPlayer(player).setDataValue("Blocked From Entering Minecarts", null);
 		}
 		else {
-			blockedFromEnteringMinecarts.add(name);
+			MinecartManiaWorld.getMinecartManiaPlayer(player).setDataValue("Blocked From Entering Minecarts", Boolean.TRUE);
 		}
 	}
 	
-	public static boolean isBlockedFromEntering(String name) {
-		return blockedFromEnteringMinecarts.contains(name);
+	public static boolean isBlockedFromEntering(Player player) {
+		return MinecartManiaWorld.getMinecartManiaPlayer(player).getDataValue("Blocked From Entering Minecarts") != null;
 	}
 	
 	public static int getMinecartKillTimer() {
@@ -35,7 +30,7 @@ public class VehicleControl extends VehicleListener{
 	    }
     	if (event.getVehicle() instanceof Minecart) {
     		if (event.getEntered() instanceof Player) {
-    			if (isBlockedFromEntering(((Player)event.getEntered()).getName())) {
+    			if (isBlockedFromEntering((Player)event.getEntered())) {
     				event.setCancelled(true);
     			}
     		}
