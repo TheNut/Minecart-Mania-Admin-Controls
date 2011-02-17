@@ -33,11 +33,19 @@ public class PlayerCommands {
 	
 	public static boolean doStationCommand(Player player, String command) {
 		String split[] = command.toLowerCase().split(" ");
-		if (split[0].contains("/st") && split.length == 2) {
+		if (split[0].contains("/st") && split.length > 1) {
 			if (player.getVehicle() instanceof Minecart) {
 				MinecartManiaPlayer mmp = MinecartManiaWorld.getMinecartManiaPlayer(player);
 				String station = split[1];
 				mmp.setLastStation(station);
+				if (split.length > 2) {
+					if (split[2].contains("s")) {
+						mmp.setDataValue("Reset Station Data", Boolean.TRUE);
+					}
+				}
+				else {
+					mmp.setDataValue("Reset Station Data", null);
+				}
 				ChatUtils.sendMultilineMessage(player, "Station Type set to:  " + station, ChatColor.GREEN.toString());
 				return true;
 			}
