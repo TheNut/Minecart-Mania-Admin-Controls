@@ -34,7 +34,7 @@ public class PlayerCommands {
 	public static boolean doStationCommand(Player player, String command) {
 		String split[] = command.toLowerCase().split(" ");
 		if (split[0].contains("/st") && split.length > 1) {
-			if (player.getVehicle() instanceof Minecart) {
+			//if (player.getVehicle() instanceof Minecart) {
 				MinecartManiaPlayer mmp = MinecartManiaWorld.getMinecartManiaPlayer(player);
 				String station = split[1];
 				mmp.setLastStation(station);
@@ -48,7 +48,7 @@ public class PlayerCommands {
 				}
 				ChatUtils.sendMultilineMessage(player, "Station Type set to:  " + station, ChatColor.GREEN.toString());
 				return true;
-			}
+			//}
 		}
 		return false;
 	}

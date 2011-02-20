@@ -60,64 +60,67 @@ public class AdminCommands {
 		return false;
 	}
 	
-	public static boolean doKillEmptyCarts(Player player, String command) {
+	/**
+	 * Clears all carts of the given type
+	 * @param player who issued the command
+	 * @param command
+	 * @return returns true if the command was processed
+	 */
+	public static boolean doKillCarts(Player player, String command) {
+		int type = -1; //the type of minecarts to clear. -1 - invalid. 0 - empty. 1 - powered. 2 - storage. 3 - occupied. 4 - all.
 		if (command.toLowerCase().contains("/clearemptycarts")) {
+			type = 0;
+		}
+		else if (command.toLowerCase().contains("/clearpoweredcarts")) {
+			type = 1;
+		}
+		else if (command.toLowerCase().contains("/clearstoragecarts")) {
+			type = 2;
+		}
+		else if (command.toLowerCase().contains("/clearoccupiedcarts")) {
+			type = 3;
+		}
+		else if (command.toLowerCase().contains("/clearallcarts")) {
+			type = 4;
+		}
+		
+		if (type != -1) {
+			int count = 0;
+			
 			ArrayList<MinecartManiaMinecart> minecartList = MinecartManiaWorld.getMinecartManiaMinecartList();
 			for (MinecartManiaMinecart minecart : minecartList) {
-				if (minecart.isStandardMinecart() && minecart.minecart.getPassenger() == null) {
-					minecart.kill();
+				switch(type) {
+					case 0:	
+						if (minecart.isStandardMinecart() && minecart.minecart.getPassenger() == null) {
+							minecart.kill();
+							count++;
+						}
+						break;
+					case 1:
+						if (minecart.isPoweredMinecart()) {
+							minecart.kill();
+							count++;
+						}
+						break;
+					case 2:
+						if (minecart.isStorageMinecart()) {
+							minecart.kill();
+							count++;
+						}
+						break;
+					case 3:
+						if (minecart.isStandardMinecart() && minecart.minecart.getPassenger() != null) {
+							minecart.kill();
+							count++;
+						}
+						break;
+					case 4:
+						minecart.kill();
+						count++;
+						break;
 				}
 			}
-			return true;
-		}
-		return false;
-	}
-	
-	public static boolean doKillPoweredCarts(Player player, String command) {
-		if (command.toLowerCase().contains("/clearpoweredcarts")) {
-			ArrayList<MinecartManiaMinecart> minecartList = MinecartManiaWorld.getMinecartManiaMinecartList();
-			for (MinecartManiaMinecart minecart : minecartList) {
-				if (minecart.isPoweredMinecart()) {
-					minecart.kill();
-				}
-			}
-			return true;
-		}
-		return false;
-	}
-	
-	public static boolean doKillOccupiedCarts(Player player, String command) {
-		if (command.toLowerCase().contains("/clearoccupiedcarts")) {
-			ArrayList<MinecartManiaMinecart> minecartList = MinecartManiaWorld.getMinecartManiaMinecartList();
-			for (MinecartManiaMinecart minecart : minecartList) {
-				if (minecart.isStandardMinecart() && minecart.minecart.getPassenger() != null) {
-					minecart.kill();
-				}
-			}
-			return true;
-		}
-		return false;
-	}
-	
-	public static boolean doKillStorageCarts(Player player, String command) {
-		if (command.toLowerCase().contains("/clearstoragecarts")) {
-			ArrayList<MinecartManiaMinecart> minecartList = MinecartManiaWorld.getMinecartManiaMinecartList();
-			for (MinecartManiaMinecart minecart : minecartList) {
-				if (minecart.isStorageMinecart()) {
-					minecart.kill();
-				}
-			}
-			return true;
-		}
-		return false;
-	}
-	
-	public static boolean doKillAllCarts(Player player, String command) {
-		if (command.toLowerCase().contains("/clearallcarts")) {
-			ArrayList<MinecartManiaMinecart> minecartList = MinecartManiaWorld.getMinecartManiaMinecartList();
-			for (MinecartManiaMinecart minecart : minecartList) {
-				minecart.kill();
-			}
+			ChatUtils.sendMultilineMessage(player, count + " minecarts were removed from the server successfully.", ChatColor.GREEN.toString());
 			return true;
 		}
 		return false;

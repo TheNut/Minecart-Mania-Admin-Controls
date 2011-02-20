@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.plugin.Plugin;
@@ -14,6 +15,7 @@ import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.afforess.minecartmaniacore.Configuration;
+import com.afforess.minecartmaniacore.utils.StringUtils;
 
 
 
@@ -62,11 +64,63 @@ public class MinecartManiaAdminControls extends JavaPlugin{
 		
 	}
 	
-	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
-    	System.out.println("CommandLabel: "+commandLabel+" Command: "+command);
+	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if (commandLabel.contains("reloadconfig")) {
 			Configuration.loadConfiguration(description, SettingList.config);
+			return true;
 		}
-		return false;
+		
+		if (!(sender instanceof Player)) {
+			return false;
+		}
+		
+		Player player = (Player)sender;
+		String command = "/" + commandLabel + " " + StringUtils.join(args, 0);
+		
+		boolean action = false;
+		
+		if (player.isOp()) {
+			if (!action) {
+				action = AdminCommands.doEjectPlayer(player, command);
+			}
+			
+			if (!action) {
+				action = AdminCommands.doPermEjectPlayer(player, command);
+			}
+			
+			if (!action) {
+				action = AdminCommands.doKillCarts(player, command);
+			}
+			
+			if (!action) {
+				action = AdminCommands.reloadConfig(player, command);
+			}
+			
+			if (!action) {
+				action = AdminCommands.setConfigurationKey(player, command);
+			}
+		}
+		
+		
+		if (!action) {
+			action = PlayerCommands.getConfigurationKey(player, command);
+		}
+		
+		if (!action) {
+			action = PlayerCommands.doStationCommand(player, command);
+		}
+		
+		if (!action) {
+			action = PlayerCommands.listConfigurationKeys(player, command);
+		}
+		
+		if (!action) {
+			action = PlayerCommands.doMomentumCommand(player, command);
+		}
+		
+		if (!action) {
+			action = PlayerCommands.doCompass(player, command);
+		}
+		return action;
 	}
 }
