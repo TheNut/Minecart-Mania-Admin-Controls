@@ -1,6 +1,5 @@
 package com.afforess.minecartmaniaadmincontrols;
 
-import java.io.File;
 import java.util.logging.Logger;
 
 import org.bukkit.Server;
@@ -11,23 +10,12 @@ import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.afforess.minecartmaniacore.Configuration;
 import com.afforess.minecartmaniacore.utils.StringUtils;
 
-
-
 public class MinecartManiaAdminControls extends JavaPlugin{
-
-	public MinecartManiaAdminControls(PluginLoader pluginLoader,
-			Server instance, PluginDescriptionFile desc, File folder,
-			File plugin, ClassLoader cLoader) {
-		super(pluginLoader, instance, desc, folder, plugin, cLoader);
-		server = instance;
-		description = desc;
-	}
 
 	public static Logger log;
 	public static Server server;
@@ -38,6 +26,8 @@ public class MinecartManiaAdminControls extends JavaPlugin{
 	
 
 	public void onEnable(){
+		server = this.getServer();
+		description = this.getDescription();
 		log = Logger.getLogger("Minecraft");
 		PluginDescriptionFile pdfFile = this.getDescription();
 		
@@ -51,7 +41,6 @@ public class MinecartManiaAdminControls extends JavaPlugin{
 		else {
 			Configuration.loadConfiguration(description, SettingList.config);
 	        getServer().getPluginManager().registerEvent(Event.Type.PLAYER_ITEM, playerListener, Priority.Normal, this);
-	        getServer().getPluginManager().registerEvent(Event.Type.PLAYER_COMMAND, playerListener, Priority.Lowest, this);
 	        getServer().getPluginManager().registerEvent(Event.Type.VEHICLE_ENTER, vehicleListener, Priority.Normal, this);
 	        getServer().getPluginManager().registerEvent(Event.Type.CUSTOM_EVENT, timer, Priority.Normal, this);
 	        

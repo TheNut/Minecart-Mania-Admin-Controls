@@ -1,6 +1,6 @@
 name: Minecart Mania Admin Controls
 main: com.afforess.minecartmaniaadmincontrols.MinecartManiaAdminControls
-version: 0.21
+version: 0.23a
 author: Afforess
 commands:
   eject:
