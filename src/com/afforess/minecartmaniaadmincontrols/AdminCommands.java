@@ -84,6 +84,8 @@ public class AdminCommands {
 			type = 4;
 		}
 		
+		boolean delete = command.contains("-d");
+		
 		if (type != -1) {
 			int count = 0;
 			
@@ -92,30 +94,30 @@ public class AdminCommands {
 				switch(type) {
 					case 0:	
 						if (minecart.isStandardMinecart() && minecart.minecart.getPassenger() == null) {
-							minecart.kill();
+							minecart.kill(!delete);
 							count++;
 						}
 						break;
 					case 1:
 						if (minecart.isPoweredMinecart()) {
-							minecart.kill();
+							minecart.kill(!delete);
 							count++;
 						}
 						break;
 					case 2:
 						if (minecart.isStorageMinecart()) {
-							minecart.kill();
+							minecart.kill(!delete);
 							count++;
 						}
 						break;
 					case 3:
 						if (minecart.isStandardMinecart() && minecart.minecart.getPassenger() != null) {
-							minecart.kill();
+							minecart.kill(!delete);
 							count++;
 						}
 						break;
 					case 4:
-						minecart.kill();
+						minecart.kill(!delete);
 						count++;
 						break;
 				}
