@@ -122,4 +122,31 @@ public class PlayerCommands {
 		}
 		return false;
 	}
+	
+	public static boolean doThrottle(Player player, String command) {
+		if (command.contains("/throttle")) {
+    		if (player.getVehicle() != null && player.getVehicle() instanceof Minecart) {
+    			try {
+		    		String num = StringUtils.getNumber(command);
+		    		double throttle = Double.valueOf(num);
+		    		if (throttle <= 500D && throttle >= 0.0D) {
+			    		MinecartManiaMinecart minecart = MinecartManiaWorld.getMinecartManiaMinecart((Minecart)player.getVehicle());
+			    		minecart.setDataValue("throttle", new Double(throttle));
+			    		if (throttle <= 100D) 
+			    			ChatUtils.sendMultilineMessage(player, "Throttle set!", ChatColor.GREEN.toString());
+			    		else
+			    			ChatUtils.sendMultilineMessage(player, "Overdrive Enabled!", ChatColor.GREEN.toString());
+		    		}
+		    		else {
+		    			ChatUtils.sendMultilineMessage(player, "Invalid command. Correct usage is \"/throttle [number]\"", ChatColor.RED.toString());
+		    		}
+    			}
+    			catch (Exception e) {
+    				ChatUtils.sendMultilineMessage(player, "Invalid command. Correct usage is \"/throttle [number]\"", ChatColor.RED.toString());;
+    			}
+    			return true;
+    		}
+    	}
+		return false;
+	}
 }

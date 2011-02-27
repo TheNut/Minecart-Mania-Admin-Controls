@@ -110,6 +110,10 @@ public class MinecartManiaAdminControls extends JavaPlugin{
 		if (!action) {
 			action = PlayerCommands.doCompass(player, command);
 		}
+		
+		if (!action) {
+			action = PlayerCommands.doThrottle(player, command);
+		}
 		return action;
 	}
 }

@@ -45,4 +45,7 @@ commands:
   trucompass:
     description: Returns the true compass direction for the direction that the player is facing
     usage: /<command>
+  throttle:
+    description: Used in autocart to control the momentum of a minecart.
+    usage: /<command> <percent>
   
