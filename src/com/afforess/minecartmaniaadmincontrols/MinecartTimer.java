@@ -32,6 +32,11 @@ public class MinecartTimer extends MinecartManiaListener{
 					}
 				}
 			}
+			else if (VehicleControl.getMinecartKillTimer() == 0) {
+				if (minecart.minecart.getPassenger() == null) {
+					minecart.kill();
+				}
+			}
 		}
 	}
 }
