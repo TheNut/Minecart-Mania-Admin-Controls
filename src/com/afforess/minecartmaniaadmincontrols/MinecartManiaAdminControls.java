@@ -12,7 +12,8 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.afforess.minecartmaniacore.Configuration;
+import com.afforess.minecartmaniacore.MinecartManiaCore;
+import com.afforess.minecartmaniacore.config.MinecartManiaConfigurationParser;
 import com.afforess.minecartmaniacore.utils.StringUtils;
 
 public class MinecartManiaAdminControls extends JavaPlugin{
@@ -39,7 +40,7 @@ public class MinecartManiaAdminControls extends JavaPlugin{
 			this.setEnabled(false);
 		}
 		else {
-			Configuration.loadConfiguration(description, SettingList.config);
+			MinecartManiaConfigurationParser.read(description.getName().replaceAll(" ","") + "Configuration.xml", MinecartManiaCore.dataDirectory, SettingList.config);
 	        getServer().getPluginManager().registerEvent(Event.Type.PLAYER_ITEM, playerListener, Priority.Normal, this);
 	        getServer().getPluginManager().registerEvent(Event.Type.VEHICLE_ENTER, vehicleListener, Priority.Normal, this);
 	        getServer().getPluginManager().registerEvent(Event.Type.CUSTOM_EVENT, timer, Priority.Normal, this);
@@ -54,11 +55,6 @@ public class MinecartManiaAdminControls extends JavaPlugin{
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		if (commandLabel.contains("reloadconfig")) {
-			Configuration.loadConfiguration(description, SettingList.config);
-			return true;
-		}
-		
 		if (!(sender instanceof Player)) {
 			return false;
 		}
