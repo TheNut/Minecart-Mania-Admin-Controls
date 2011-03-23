@@ -1,6 +1,5 @@
 package com.afforess.minecartmaniaadmincontrols;
 import org.bukkit.Material;
-import org.bukkit.event.Event.Type;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerListener;
 import com.afforess.minecartmaniacore.MinecartManiaWorld;
@@ -11,9 +10,6 @@ public class AdminControlsPlayerListener extends PlayerListener{
     	if (event.isCancelled()) {
 			return;
 		}
-    	if (event.getType() != Type.BLOCK_DAMAGE) {
-    		return;
-    	}
 		if (event.getMaterial().getId() == Material.WOOD_PICKAXE.getId()) {
 			if (event.getClickedBlock() != null && event.getClickedBlock().getTypeId() == Material.RAILS.getId()) {
 				int oldData = event.getClickedBlock().getData();
