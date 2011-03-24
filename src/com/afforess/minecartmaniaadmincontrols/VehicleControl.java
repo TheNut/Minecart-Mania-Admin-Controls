@@ -20,7 +20,7 @@ public class VehicleControl extends VehicleListener{
 	}
 	
 	public static int getMinecartKillTimer() {
-		return MinecartManiaWorld.getIntValue(MinecartManiaWorld.getConfigurationValue("Empty Minecart Kill Timer"));
+		return MinecartManiaWorld.getIntValue(MinecartManiaWorld.getConfigurationValue("EmptyMinecartKillTimer"));
 	}
 	
 	
