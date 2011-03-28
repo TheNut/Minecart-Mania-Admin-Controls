@@ -19,7 +19,7 @@ import com.afforess.minecartmaniacore.config.MinecartManiaConfigurationParser;
 import com.afforess.minecartmaniacore.config.SettingParser;
 
 public class AdminControlsSettingParser implements SettingParser{
-	private static final double version = 1.0;
+	private static final double version = 1.1;
 	
 	public boolean isUpToDate(Document document) {
 		try {
@@ -42,7 +42,12 @@ public class AdminControlsSettingParser implements SettingParser{
 			setting = "EmptyMinecartKillTimer";
 			list = document.getElementsByTagName(setting);
 			value = MinecartManiaConfigurationParser.toInt(list.item(0).getChildNodes().item(0).getNodeValue(), -1);
-			MinecartManiaWorld.getConfiguration().put(setting, value);
+			MinecartManiaWorld.setConfigurationValue(setting, value);
+			
+			setting = "MinecartTrackAdjuster";
+			list = document.getElementsByTagName(setting);
+			value = MinecartManiaConfigurationParser.toItem(list.item(0).getChildNodes().item(0).getNodeValue());
+			MinecartManiaWorld.setConfigurationValue(setting, value);
 			
 		}
 		catch (Exception e) {
@@ -64,12 +69,18 @@ public class AdminControlsSettingParser implements SettingParser{
 			Element rootElement = doc.createElement("MinecartManiaConfiguration");
 			doc.appendChild(rootElement);			
 			Element setting = doc.createElement("version");
-			setting.appendChild(doc.createTextNode("1.0"));
+			setting.appendChild(doc.createTextNode(String.valueOf(version)));
 			rootElement.appendChild(setting);
 			
 			setting = doc.createElement("EmptyMinecartKillTimer");
 			Comment comment = doc.createComment("After a minecart has been empty longer than the set time (in minutes) it will be destroyed. Negative values will disable the timer");
 			setting.appendChild(doc.createTextNode("-1"));
+			rootElement.appendChild(setting);
+			rootElement.insertBefore(comment,setting);
+			
+			setting = doc.createElement("MinecartTrackAdjuster");
+			comment = doc.createComment("Clicking on track with this item will cause it to cycle through all possible rail shapes.");
+			setting.appendChild(doc.createTextNode("270"));
 			rootElement.appendChild(setting);
 			rootElement.insertBefore(comment,setting);
 			
