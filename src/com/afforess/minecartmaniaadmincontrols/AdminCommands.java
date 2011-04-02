@@ -68,6 +68,7 @@ public class AdminCommands {
 	 */
 	public static boolean doKillCarts(Player player, String command) {
 		int type = -1; //the type of minecarts to clear. -1 - invalid. 0 - empty. 1 - powered. 2 - storage. 3 - occupied. 4 - all.
+		int distance = -1;
 		if (command.toLowerCase().contains("/clearemptycarts")) {
 			type = 0;
 		}
@@ -84,6 +85,14 @@ public class AdminCommands {
 			type = 4;
 		}
 		
+		String[] split = command.split(" ");
+		if (split.length > 1) {
+			try {
+				distance = Integer.parseInt(StringUtils.getNumber(split[1]));
+			}
+			catch (Exception e) {}
+		}
+		
 		boolean delete = command.contains("-d");
 		
 		if (type != -1) {
@@ -91,35 +100,39 @@ public class AdminCommands {
 			
 			ArrayList<MinecartManiaMinecart> minecartList = MinecartManiaWorld.getMinecartManiaMinecartList();
 			for (MinecartManiaMinecart minecart : minecartList) {
-				switch(type) {
-					case 0:	
-						if (minecart.isStandardMinecart() && minecart.minecart.getPassenger() == null) {
-							minecart.kill(!delete);
-							count++;
+				if (!minecart.isDead() && !MinecartManiaWorld.isDead(minecart.minecart)) {
+					if (distance < 0 || (minecart.minecart.getLocation().toVector().distance(player.getLocation().toVector()) < distance)) {
+						switch(type) {
+							case 0:	
+								if (minecart.isStandardMinecart() && minecart.minecart.getPassenger() == null) {
+									minecart.kill(!delete);
+									count++;
+								}
+								break;
+							case 1:
+								if (minecart.isPoweredMinecart()) {
+									minecart.kill(!delete);
+									count++;
+								}
+								break;
+							case 2:
+								if (minecart.isStorageMinecart()) {
+									minecart.kill(!delete);
+									count++;
+								}
+								break;
+							case 3:
+								if (minecart.isStandardMinecart() && minecart.minecart.getPassenger() != null) {
+									minecart.kill(!delete);
+									count++;
+								}
+								break;
+							case 4:
+								minecart.kill(!delete);
+								count++;
+								break;
 						}
-						break;
-					case 1:
-						if (minecart.isPoweredMinecart()) {
-							minecart.kill(!delete);
-							count++;
-						}
-						break;
-					case 2:
-						if (minecart.isStorageMinecart()) {
-							minecart.kill(!delete);
-							count++;
-						}
-						break;
-					case 3:
-						if (minecart.isStandardMinecart() && minecart.minecart.getPassenger() != null) {
-							minecart.kill(!delete);
-							count++;
-						}
-						break;
-					case 4:
-						minecart.kill(!delete);
-						count++;
-						break;
+					}
 				}
 			}
 			ChatUtils.sendMultilineMessage(player, count + " minecarts were removed from the server successfully.", ChatColor.GREEN.toString());

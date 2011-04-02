@@ -23,6 +23,13 @@ public class VehicleControl extends VehicleListener{
 		return MinecartManiaWorld.getIntValue(MinecartManiaWorld.getConfigurationValue("EmptyMinecartKillTimer"));
 	}
 	
+	public static int getStorageMinecartKillTimer() {
+		return MinecartManiaWorld.getIntValue(MinecartManiaWorld.getConfigurationValue("EmptyStorageMinecartKillTimer"));
+	}
+	
+	public static int getPoweredMinecartKillTimer() {
+		return MinecartManiaWorld.getIntValue(MinecartManiaWorld.getConfigurationValue("EmptyPoweredMinecartKillTimer"));
+	}
 	
 	 public void onVehicleEnter(VehicleEnterEvent event) {
 		if (event.isCancelled()) {

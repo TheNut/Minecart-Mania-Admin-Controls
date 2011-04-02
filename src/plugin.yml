@@ -1,7 +1,8 @@
 name: Minecart Mania Admin Controls
 main: com.afforess.minecartmaniaadmincontrols.MinecartManiaAdminControls
-version: 1.05
+version: 1.07
 author: Afforess
+depend: [Minecart Mania Core]
 commands:
   eject:
     description: Ejects the specified player from a minecart, if they are in one
