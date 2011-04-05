@@ -14,10 +14,9 @@ import com.afforess.minecartmaniacore.utils.ChatUtils;
 import com.afforess.minecartmaniacore.utils.StringUtils;
 
 public class AdminCommands {
-	
 	public static boolean doDebugMode(Player player, String command) {
 		String split[] = command.split(" ");
-		if (command.toLowerCase().contains("/mm debug")) {
+		if (command.toLowerCase().contains("/debug")) {
 			if (split.length == 3) {
 				DebugMode mode = null;
 				for (DebugMode m : DebugMode.values()) {

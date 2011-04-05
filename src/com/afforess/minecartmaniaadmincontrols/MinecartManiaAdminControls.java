@@ -42,9 +42,18 @@ public class MinecartManiaAdminControls extends JavaPlugin{
 		if (!(sender instanceof Player)) {
 			return false;
 		}
+		//if (!commandLabel.equals("mm")) {
+		//	return false;
+		//}
 		
 		Player player = (Player)sender;
-		String command = "/" + commandLabel + " " + StringUtils.join(args, 0);
+		String command;
+		if (commandLabel.equals("mm")) {
+			command = "/" + StringUtils.join(args, 0);
+		}
+		else {
+			command = "/" + commandLabel + " " + StringUtils.join(args, 0);
+		}
 		
 		boolean action = false;
 		
