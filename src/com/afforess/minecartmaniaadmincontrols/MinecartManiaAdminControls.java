@@ -1,24 +1,22 @@
 package com.afforess.minecartmaniaadmincontrols;
 
-import java.util.logging.Logger;
-
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.afforess.minecartmaniacore.MinecartManiaCore;
 import com.afforess.minecartmaniacore.config.MinecartManiaConfigurationParser;
+import com.afforess.minecartmaniacore.debug.MinecartManiaLogger;
 import com.afforess.minecartmaniacore.utils.StringUtils;
 
 public class MinecartManiaAdminControls extends JavaPlugin{
 
-	public static Logger log;
+	public static MinecartManiaLogger log = MinecartManiaLogger.getInstance();
 	public static Server server;
 	public static PluginDescriptionFile description;
 	private static final AdminControlsPlayerListener playerListener = new AdminControlsPlayerListener();
@@ -29,25 +27,11 @@ public class MinecartManiaAdminControls extends JavaPlugin{
 	public void onEnable(){
 		server = this.getServer();
 		description = this.getDescription();
-		log = Logger.getLogger("Minecraft");
-		PluginDescriptionFile pdfFile = this.getDescription();
-		
-		Plugin MinecartMania = server.getPluginManager().getPlugin("Minecart Mania Core");
-		
-		if (MinecartMania == null) {
-			log.severe(pdfFile.getName() + " requires Minecart Mania Core to function!");
-			log.severe(pdfFile.getName() + " is disabled!");
-			this.setEnabled(false);
-		}
-		else {
-			MinecartManiaConfigurationParser.read(description.getName().replaceAll(" ","") + "Configuration.xml", MinecartManiaCore.dataDirectory, new AdminControlsSettingParser());
-	        getServer().getPluginManager().registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Priority.Normal, this);
-	        getServer().getPluginManager().registerEvent(Event.Type.VEHICLE_ENTER, vehicleListener, Priority.Normal, this);
-	        getServer().getPluginManager().registerEvent(Event.Type.CUSTOM_EVENT, timer, Priority.Normal, this);
-	        
-	        
-	        log.info( pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled!" );
-		}
+		MinecartManiaConfigurationParser.read(description.getName() + "Configuration.xml", MinecartManiaCore.dataDirectory, new AdminControlsSettingParser());
+        getServer().getPluginManager().registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Priority.Normal, this);
+        getServer().getPluginManager().registerEvent(Event.Type.VEHICLE_ENTER, vehicleListener, Priority.Normal, this);
+        getServer().getPluginManager().registerEvent(Event.Type.CUSTOM_EVENT, timer, Priority.Normal, this);
+        log.info( description.getName() + " version " + description.getVersion() + " is enabled!" );
 	}
 	
 	public void onDisable(){
@@ -83,6 +67,10 @@ public class MinecartManiaAdminControls extends JavaPlugin{
 			
 			if (!action) {
 				action = AdminCommands.setConfigurationKey(player, command);
+			}
+			
+			if (!action) {
+				action = AdminCommands.doDebugMode(player, command);
 			}
 		}
 		

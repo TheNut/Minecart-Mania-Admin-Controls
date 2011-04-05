@@ -6,12 +6,44 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import com.afforess.minecartmaniacore.MinecartManiaCore;
 import com.afforess.minecartmaniacore.MinecartManiaMinecart;
 import com.afforess.minecartmaniacore.MinecartManiaWorld;
+import com.afforess.minecartmaniacore.debug.DebugMode;
 import com.afforess.minecartmaniacore.utils.ChatUtils;
 import com.afforess.minecartmaniacore.utils.StringUtils;
 
 public class AdminCommands {
+	
+	public static boolean doDebugMode(Player player, String command) {
+		String split[] = command.split(" ");
+		if (command.toLowerCase().contains("/mm debug")) {
+			if (split.length == 3) {
+				DebugMode mode = null;
+				for (DebugMode m : DebugMode.values()) {
+					if (split[2].equalsIgnoreCase(m.name())) {
+						mode = m;
+						break;
+					}
+				}
+				if (mode != null) {
+					MinecartManiaCore.log.switchDebugMode(mode);
+					player.sendMessage(ChatColor.GREEN + "Switched to debug mode: " + mode.name());
+					
+				}
+			}
+			else {
+				String modes = "";
+				for (DebugMode m : DebugMode.values()) {
+					modes += m.name().toLowerCase() + ", ";
+				}
+				modes.substring(0, modes.length() - 3);
+				player.sendMessage(ChatColor.RED + "Valid Debug Modes: " + modes);
+			}
+			return true;
+		}
+		return false;
+	}
 	public static boolean doEjectPlayer(Player player, String command) {
 		String split[] = command.split(" ");
 		if (command.toLowerCase().contains("/eject")) {

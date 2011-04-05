@@ -24,7 +24,7 @@ public class MinecartTimer extends MinecartManiaListener{
 			if (kill) {
 				//No timer, start counting
 				if (minecart.getDataValue("Empty Timer") == null) {
-					minecart.setDataValue("Empty Timer", new Integer(timer * 60));
+					minecart.setDataValue("Empty Timer", new Integer(timer));
 				}
 				else {
 					//Decrement timer

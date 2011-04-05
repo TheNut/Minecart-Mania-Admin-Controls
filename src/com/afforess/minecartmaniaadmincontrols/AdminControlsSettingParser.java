@@ -19,7 +19,7 @@ import com.afforess.minecartmaniacore.config.MinecartManiaConfigurationParser;
 import com.afforess.minecartmaniacore.config.SettingParser;
 
 public class AdminControlsSettingParser implements SettingParser{
-	private static final double version = 1.1;
+	private static final double version = 1.2;
 	
 	public boolean isUpToDate(Document document) {
 		try {
@@ -83,19 +83,19 @@ public class AdminControlsSettingParser implements SettingParser{
 			rootElement.appendChild(setting);
 			
 			setting = doc.createElement("EmptyMinecartKillTimer");
-			Comment comment = doc.createComment("After a minecart has been empty longer than the set time (in minutes) it will be destroyed. Negative values will disable the timer");
+			Comment comment = doc.createComment("After a minecart has been empty longer than the set time (in seconds) it will be destroyed. Negative values will disable the timer");
 			setting.appendChild(doc.createTextNode("-1"));
 			rootElement.appendChild(setting);
 			rootElement.insertBefore(comment,setting);
 			
 			setting = doc.createElement("EmptyStorageMinecartKillTimer");
-			comment = doc.createComment("After a storage minecart has been empty longer than the set time (in minutes) it will be destroyed. Negative values will disable the timer");
+			comment = doc.createComment("After a storage minecart has been empty longer than the set time (in seconds) it will be destroyed. Negative values will disable the timer");
 			setting.appendChild(doc.createTextNode("-1"));
 			rootElement.appendChild(setting);
 			rootElement.insertBefore(comment,setting);
 			
 			setting = doc.createElement("EmptyPoweredMinecartKillTimer");
-			comment = doc.createComment("After a powered minecart has been empty longer than the set time (in minutes) it will be destroyed. Negative values will disable the timer");
+			comment = doc.createComment("After a powered minecart has been empty longer than the set time (in seconds) it will be destroyed. Negative values will disable the timer");
 			setting.appendChild(doc.createTextNode("-1"));
 			rootElement.appendChild(setting);
 			rootElement.insertBefore(comment,setting);
