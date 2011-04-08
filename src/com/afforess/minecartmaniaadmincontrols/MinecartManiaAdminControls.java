@@ -69,11 +69,7 @@ public class MinecartManiaAdminControls extends JavaPlugin{
 			if (!action) {
 				action = AdminCommands.doKillCarts(player, command);
 			}
-			
-			if (!action) {
-				action = AdminCommands.reloadConfig(player, command);
-			}
-			
+
 			if (!action) {
 				action = AdminCommands.setConfigurationKey(player, command);
 			}

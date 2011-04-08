@@ -3,14 +3,13 @@ package com.afforess.minecartmaniaadmincontrols;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.afforess.minecartmaniacore.MinecartManiaCore;
 import com.afforess.minecartmaniacore.MinecartManiaMinecart;
 import com.afforess.minecartmaniacore.MinecartManiaWorld;
+import com.afforess.minecartmaniacore.config.LocaleParser;
 import com.afforess.minecartmaniacore.debug.DebugMode;
-import com.afforess.minecartmaniacore.utils.ChatUtils;
 import com.afforess.minecartmaniacore.utils.StringUtils;
 
 public class AdminCommands {
@@ -27,7 +26,7 @@ public class AdminCommands {
 				}
 				if (mode != null) {
 					MinecartManiaCore.log.switchDebugMode(mode);
-					player.sendMessage(ChatColor.GREEN + "Switched to debug mode: " + mode.name());
+					player.sendMessage(LocaleParser.getTextKey("AdminControlsDebugMode", mode.name()));
 					
 				}
 			}
@@ -37,7 +36,7 @@ public class AdminCommands {
 					modes += m.name().toLowerCase() + ", ";
 				}
 				modes.substring(0, modes.length() - 3);
-				player.sendMessage(ChatColor.RED + "Valid Debug Modes: " + modes);
+				player.sendMessage(LocaleParser.getTextKey("AdminControlsDebugMode", modes));
 			}
 			return true;
 		}
@@ -55,11 +54,11 @@ public class AdminCommands {
 					}
 				}
 				else {
-					ChatUtils.sendMultilineWarning(player, "No player matches that name");
+					player.sendMessage(LocaleParser.getTextKey("AdminControlsNoPlayerFound"));
 				}
 			}
 			else {
-				ChatUtils.sendMultilineWarning(player, "Proper Usage: '/eject [player name]'");
+				player.sendMessage(LocaleParser.getTextKey("AdminControlsEjectUsage"));
 			}
 			return true;
 		}
@@ -80,11 +79,11 @@ public class AdminCommands {
 					}
 				}
 				else {
-					ChatUtils.sendMultilineWarning(player, "No player matches that name");
+					player.sendMessage(LocaleParser.getTextKey("AdminControlsNoPlayerFound"));
 				}
 			}
 			else {
-				ChatUtils.sendMultilineWarning(player, "Proper Usage: '/permeject [player name]'");
+				player.sendMessage(LocaleParser.getTextKey("AdminControlsPermEjectUsage"));
 			}
 			return true;
 		}
@@ -131,7 +130,7 @@ public class AdminCommands {
 			
 			ArrayList<MinecartManiaMinecart> minecartList = MinecartManiaWorld.getMinecartManiaMinecartList();
 			for (MinecartManiaMinecart minecart : minecartList) {
-				if (!minecart.isDead() && !MinecartManiaWorld.isDead(minecart.minecart)) {
+				if (!minecart.isDead() && !minecart.minecart.isDead()) {
 					if (distance < 0 || (minecart.minecart.getLocation().toVector().distance(player.getLocation().toVector()) < distance)) {
 						switch(type) {
 							case 0:	
@@ -166,31 +165,7 @@ public class AdminCommands {
 					}
 				}
 			}
-			ChatUtils.sendMultilineMessage(player, count + " minecarts were removed from the server successfully.", ChatColor.GREEN.toString());
-			return true;
-		}
-		return false;
-	}
-	
-	public static boolean reloadConfig(Player player, String command) {
-		String split[] = command.split(" ");
-		if (command.toLowerCase().contains("/reloadconfig")) {
-			if (split.length > 1) {
-				
-				String pluginName = "";
-				for (int i = 1; i < split.length; i++) {
-					pluginName += split[i];
-					if (i != split.length - 1) {
-						pluginName += " ";
-					}
-				}
-				if (MinecartManiaAdminControls.server.getPluginManager().getPlugin(pluginName) != null) {
-					MinecartManiaAdminControls.server.getPluginManager().getPlugin(pluginName).onCommand(player, null, "reloadconfig", new String[0]);
-				}
-			}
-			else {
-				ChatUtils.sendMultilineWarning(player, "Proper Usage: '/reloadconfig [plugin name]'. [NEWLINE] Hint: Use spaces.");
-			}
+			player.sendMessage(LocaleParser.getTextKey("AdminControlsMinecartsRemoved", count));
 			return true;
 		}
 		return false;
@@ -212,20 +187,20 @@ public class AdminCommands {
 					value = command.substring(start+1, end);
 					if (value.equalsIgnoreCase("null")) {
 						MinecartManiaWorld.setConfigurationValue(key, null);
-						ChatUtils.sendMultilineMessage(player, "Key '" + key + "' set to 'null'", ChatColor.GREEN.toString());
+						player.sendMessage(LocaleParser.getTextKey("AdminControlsSetConfigKey", key, "null"));
 					}
 					else {
 						if (value.equalsIgnoreCase("true")) {
-							ChatUtils.sendMultilineMessage(player, "Key '" + key + "' set to '" + value + "'", ChatColor.GREEN.toString());
+							player.sendMessage(LocaleParser.getTextKey("AdminControlsSetConfigKey", key, value));
 							MinecartManiaWorld.setConfigurationValue(key, Boolean.TRUE);
 						}
 						else if (value.equalsIgnoreCase("false")) {
-							ChatUtils.sendMultilineMessage(player, "Key '" + key + "' set to '" + value + "'", ChatColor.GREEN.toString());
+							player.sendMessage(LocaleParser.getTextKey("AdminControlsSetConfigKey", key, value));
 							MinecartManiaWorld.setConfigurationValue(key, Boolean.FALSE);
 						}
 						else if (StringUtils.containsLetters(value)) {
 							//save it as a string
-							ChatUtils.sendMultilineMessage(player, "Key '" + key + "' set to '" + value + "'", ChatColor.GREEN.toString());
+							player.sendMessage(LocaleParser.getTextKey("AdminControlsSetConfigKey", key, value));
 							MinecartManiaWorld.setConfigurationValue(key, value);
 						}
 						else {
@@ -234,27 +209,27 @@ public class AdminCommands {
 								Double d = Double.valueOf(value);
 								if (d.intValue() == d) {
 									//try to save it as an int
-									ChatUtils.sendMultilineMessage(player, "Key '" + key + "' set to '" + d.intValue() + "'", ChatColor.GREEN.toString());
+									player.sendMessage(LocaleParser.getTextKey("AdminControlsSetConfigKey", key, String.valueOf(d.intValue())));
 									MinecartManiaWorld.setConfigurationValue(key, new Integer(d.intValue()));
 								}
 								else {
 									//save it as a double
-									ChatUtils.sendMultilineMessage(player, "Key '" + key + "' set to '" + d.doubleValue() + "'", ChatColor.GREEN.toString());
+									player.sendMessage(LocaleParser.getTextKey("AdminControlsSetConfigKey", key, String.valueOf(d.doubleValue())));
 									MinecartManiaWorld.setConfigurationValue(key, d);
 								}
 							}
 							catch (Exception e) {
-								ChatUtils.sendMultilineWarning(player, "Invalid Configuration Value");
+								player.sendMessage(LocaleParser.getTextKey("AdminControlsInvalidValue"));
 							}
 						}
 					}
 				}
 				else {
-					ChatUtils.sendMultilineWarning(player, "Proper Usage: '/setconfigkey [key] [value]'. [NEWLINE] Hint: The key and value should be surrounded by brackets.");
+					player.sendMessage(LocaleParser.getTextKey("AdminControlsSetConfigKeyUsage"));
 				}
 			}
 			else {
-				ChatUtils.sendMultilineWarning(player, "Proper Usage: '/setconfigkey [key] [value]'. [NEWLINE] Hint: The key and value should be surrounded by brackets.");
+				player.sendMessage(LocaleParser.getTextKey("AdminControlsSetConfigKeyUsage"));
 			}
 			return true;
 		}

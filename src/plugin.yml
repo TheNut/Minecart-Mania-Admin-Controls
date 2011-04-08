@@ -1,6 +1,6 @@
 name: MinecartManiaAdminControls
 main: com.afforess.minecartmaniaadmincontrols.MinecartManiaAdminControls
-version: 1.08
+version: 1.09
 author: Afforess
 depend: [MinecartManiaCore]
 commands:

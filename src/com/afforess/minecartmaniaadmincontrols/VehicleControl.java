@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.event.vehicle.VehicleListener;
 import com.afforess.minecartmaniacore.MinecartManiaWorld;
+import com.afforess.minecartmaniacore.config.LocaleParser;
 public class VehicleControl extends VehicleListener{
 	
 	public static void toggleBlockFromEntering(Player player) {
@@ -39,6 +40,7 @@ public class VehicleControl extends VehicleListener{
     		if (event.getEntered() instanceof Player) {
     			if (isBlockedFromEntering((Player)event.getEntered())) {
     				event.setCancelled(true);
+    				((Player)event.getEntered()).sendMessage(LocaleParser.getTextKey("AdminControlsBlockMinecartEntry"));
     			}
     		}
     	}

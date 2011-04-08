@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import com.afforess.minecartmaniacore.MinecartManiaMinecart;
 import com.afforess.minecartmaniacore.MinecartManiaPlayer;
 import com.afforess.minecartmaniacore.MinecartManiaWorld;
-import com.afforess.minecartmaniacore.utils.ChatUtils;
+import com.afforess.minecartmaniacore.config.LocaleParser;
 import com.afforess.minecartmaniacore.utils.DirectionUtils;
 import com.afforess.minecartmaniacore.utils.StringUtils;
 
@@ -21,10 +21,10 @@ public class PlayerCommands {
 		if (command.toLowerCase().contains("/momentum")) {
 			if (player.getVehicle() instanceof Minecart) {
 				MinecartManiaMinecart minecart = MinecartManiaWorld.getMinecartManiaMinecart((Minecart)player.getVehicle());
-				ChatUtils.sendMultilineMessage(player, String.format("Momentum X: %.2f [NEWLINE] Momentum Y: %.2f [NEWLINE] Momentum Z: %.2f", (float)minecart.getMotionX(), (float)minecart.getMotionY(), (float)minecart.getMotionZ()));
+				player.sendMessage(LocaleParser.getTextKey("AdminControlsMomentum", (float)minecart.getMotionX(), (float)minecart.getMotionY(), (float)minecart.getMotionZ()));
 			}
 			else {
-				ChatUtils.sendMultilineWarning(player, "You can only have momentum inside a minecart.");
+				player.sendMessage(LocaleParser.getTextKey("AdminControlsMomentumInvalid"));
 			}
 			return true;
 		}
@@ -46,7 +46,7 @@ public class PlayerCommands {
 				else {
 					mmp.setDataValue("Reset Station Data", null);
 				}
-				ChatUtils.sendMultilineMessage(player, "Station Type set to:  " + station, ChatColor.GREEN.toString());
+				player.sendMessage(LocaleParser.getTextKey("AdminControlsStation", station));
 				return true;
 			//}
 		}
@@ -62,10 +62,10 @@ public class PlayerCommands {
 			if (start > -1 && end > -1) {
 				key = command.substring(start+1, end);
 				Object value = MinecartManiaWorld.getConfigurationValue(key);
-				ChatUtils.sendMultilineMessage(player, "The value of '" + key + "' is '" + value + "'", ChatColor.GREEN.toString());
+				player.sendMessage(LocaleParser.getTextKey("AdminControlsConfigKey", key, value));
 			}
 			else {
-				ChatUtils.sendMultilineWarning(player, "Proper Usage: '/getconfigkey [key]'. [NEWLINE] Hint: The key should be surrounded by brackets.");
+				player.sendMessage(LocaleParser.getTextKey("AdminControlsConfigKeyUsage"));
 			}
 			return true;
 		}
@@ -75,40 +75,39 @@ public class PlayerCommands {
 	public static boolean listConfigurationKeys(Player player, String command) {
 		if (command.contains("/listconfigkeys")) {
 			ConcurrentHashMap<String, Object> configKeys= MinecartManiaWorld.getConfiguration();
-			 
-			 int page;
-			 if (StringUtils.getNumber(command).isEmpty()) {
-				 page = 1;
-			 }
-			 else {
-				 try {
-					 page = Integer.valueOf(StringUtils.getNumber(command)); 
-				 }
-				 catch (NumberFormatException e) {
-					 ChatUtils.sendMultilineWarning(player, "Invalid page number");
-					 return true;
-				 }
-			 }
-			 
-			 int curLine = 0;
-			 int maxPages = (int) Math.ceil(((double)configKeys.size() / 6));
-			 
-			 if (page <= maxPages) {
-				 
-				 player.sendMessage(ChatColor.YELLOW.toString() + "Minecart Mania Configuration Values (Page " + page + " of " + maxPages + ")");
-				 
-				 Iterator<Entry<String, Object>> i = configKeys.entrySet().iterator();
-				 while (i.hasNext()) {
-					 Entry<String, Object> e = i.next();
-					 if (curLine / 6 == (page - 1)) {
-						 player.sendMessage("Key: " + ChatColor.GREEN + e.getKey() + ChatColor.WHITE + " Value: " + ChatColor.GREEN + e.getValue());
-					 } 
-					 curLine++;
-				 }
-			 }
-			 else {
-				 ChatUtils.sendMultilineWarning(player, "There is no page " + page);
-			 }
+			
+			int page;
+			if (StringUtils.getNumber(command).isEmpty()) {
+				page = 1;
+			}
+			else {
+				try {
+					page = Integer.valueOf(StringUtils.getNumber(command)); 
+				}
+				catch (NumberFormatException e) {
+					player.sendMessage(LocaleParser.getTextKey("AdminControlsListConfigKeyError"));
+					return true;
+				}
+			}
+			
+			int curLine = 0;
+			int maxPages = (int) Math.ceil(((double)configKeys.size() / 6));
+			
+			if (page <= maxPages) {
+				player.sendMessage(LocaleParser.getTextKey("AdminControlsListConfigKeyPageHeader", page, maxPages));
+		
+				Iterator<Entry<String, Object>> i = configKeys.entrySet().iterator();
+				while (i.hasNext()) {
+					Entry<String, Object> e = i.next();
+					if (curLine / 6 == (page - 1)) {
+						player.sendMessage(LocaleParser.getTextKey("AdminControlsListConfigKey", e.getKey(), e.getValue()));
+					} 
+					curLine++;
+				}
+			}
+			else {
+				player.sendMessage(LocaleParser.getTextKey("AdminControlsListConfigKeyPage", page));
+			}
 			return true;
 		}
 		return false;
@@ -125,28 +124,28 @@ public class PlayerCommands {
 	
 	public static boolean doThrottle(Player player, String command) {
 		if (command.contains("/throttle")) {
-    		if (player.getVehicle() != null && player.getVehicle() instanceof Minecart) {
-    			try {
-		    		String num = StringUtils.getNumber(command);
-		    		double throttle = Double.valueOf(num);
-		    		if (throttle <= 500D && throttle >= 0.0D) {
-			    		MinecartManiaMinecart minecart = MinecartManiaWorld.getMinecartManiaMinecart((Minecart)player.getVehicle());
-			    		minecart.setDataValue("throttle", new Double(throttle));
-			    		if (throttle <= 100D) 
-			    			ChatUtils.sendMultilineMessage(player, "Throttle set!", ChatColor.GREEN.toString());
-			    		else
-			    			ChatUtils.sendMultilineMessage(player, "Overdrive Enabled!", ChatColor.GREEN.toString());
-		    		}
-		    		else {
-		    			ChatUtils.sendMultilineMessage(player, "Invalid command. Correct usage is \"/throttle [number]\"", ChatColor.RED.toString());
-		    		}
-    			}
-    			catch (Exception e) {
-    				ChatUtils.sendMultilineMessage(player, "Invalid command. Correct usage is \"/throttle [number]\"", ChatColor.RED.toString());;
-    			}
-    			return true;
-    		}
-    	}
+			if (player.getVehicle() != null && player.getVehicle() instanceof Minecart) {
+				try {
+					String num = StringUtils.getNumber(command);
+					double throttle = Double.valueOf(num);
+					if (throttle <= 500D && throttle >= 0.0D) {
+						MinecartManiaMinecart minecart = MinecartManiaWorld.getMinecartManiaMinecart((Minecart)player.getVehicle());
+						minecart.setDataValue("throttle", new Double(throttle));
+						if (throttle <= 100D) 
+							player.sendMessage(LocaleParser.getTextKey("AdminControlsThrottleSet"));
+						else
+							player.sendMessage(LocaleParser.getTextKey("AdminControlsThrottleSetOverdrive"));
+					}
+					else {
+						player.sendMessage(LocaleParser.getTextKey("AdminControlsThrottleUsage"));
+					}
+				}
+				catch (Exception e) {
+					player.sendMessage(LocaleParser.getTextKey("AdminControlsThrottleUsage"));
+				}
+				return true;
+			}
+		}
 		return false;
 	}
 }
