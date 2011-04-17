@@ -46,7 +46,7 @@ public class PlayerCommands {
 				else {
 					mmp.setDataValue("Reset Station Data", null);
 				}
-				player.sendMessage(LocaleParser.getTextKey("AdminControlsStation", station));
+				mmp.sendMessage(LocaleParser.getTextKey("AdminControlsStation", station));
 				return true;
 			//}
 		}

@@ -1,5 +1,6 @@
 package com.afforess.minecartmaniaadmincontrols;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -9,6 +10,9 @@ import org.bukkit.event.Event.Priority;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.afforess.minecartmanaiaadmincontrols.permissions.PermissionBlockListener;
+import com.afforess.minecartmanaiaadmincontrols.permissions.PermissionManager;
+import com.afforess.minecartmaniaadmincontrols.commands.Commands;
 import com.afforess.minecartmaniacore.MinecartManiaCore;
 import com.afforess.minecartmaniacore.config.MinecartManiaConfigurationParser;
 import com.afforess.minecartmaniacore.debug.MinecartManiaLogger;
@@ -22,22 +26,31 @@ public class MinecartManiaAdminControls extends JavaPlugin{
 	private static final AdminControlsPlayerListener playerListener = new AdminControlsPlayerListener();
 	private static final VehicleControl vehicleListener = new VehicleControl();
 	private static final MinecartTimer timer = new MinecartTimer();
+	public static PermissionManager permissions;
+	private static final PermissionBlockListener permissionListener = new PermissionBlockListener();
 	
 
 	public void onEnable(){
 		server = this.getServer();
 		description = this.getDescription();
+		permissions = new PermissionManager(getServer());
 		MinecartManiaConfigurationParser.read(description.getName() + "Configuration.xml", MinecartManiaCore.dataDirectory, new AdminControlsSettingParser());
-        getServer().getPluginManager().registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Priority.Normal, this);
-        getServer().getPluginManager().registerEvent(Event.Type.VEHICLE_ENTER, vehicleListener, Priority.Normal, this);
-        getServer().getPluginManager().registerEvent(Event.Type.CUSTOM_EVENT, timer, Priority.Normal, this);
-        log.info( description.getName() + " version " + description.getVersion() + " is enabled!" );
+		getServer().getPluginManager().registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Priority.Normal, this);
+		getServer().getPluginManager().registerEvent(Event.Type.VEHICLE_ENTER, vehicleListener, Priority.Normal, this);
+		getServer().getPluginManager().registerEvent(Event.Type.CUSTOM_EVENT, timer, Priority.Normal, this);
+		
+		if (permissions.isHasPermissions()) {
+			//getServer().getPluginManager().registerEvent(Event.Type.SIGN_CHANGE, permissionListener, Priority.Normal, this);
+		}
+		
+		log.info( description.getName() + " version " + description.getVersion() + " is enabled!" );
 	}
 	
 	public void onDisable(){
 		
 	}
 	
+	//TODO split this into seperate classes, e.g command executers?
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if (!(sender instanceof Player)) {
 			return false;
@@ -48,12 +61,31 @@ public class MinecartManiaAdminControls extends JavaPlugin{
 		
 		Player player = (Player)sender;
 		String command;
+		String commandPrefix;
 		if (commandLabel.equals("mm")) {
+			commandPrefix = args[0];
 			command = "/" + StringUtils.join(args, 0);
 		}
 		else {
+			commandPrefix = commandLabel;
 			command = "/" + commandLabel + " " + StringUtils.join(args, 0);
 		}
+		commandPrefix = commandPrefix.toLowerCase();
+		
+		if (Commands.isAdminCommand(commandPrefix)) {
+			if (!permissions.canUseAdminCommand(player, commandPrefix)) {
+				player.sendMessage(ChatColor.RED + "You do not have access to that command");
+				return true;
+			}
+		}
+		else {
+			if (!permissions.canUseCommand(player, commandPrefix)) {
+				player.sendMessage(ChatColor.RED + "You do not have access to that command");
+				return true;
+			}
+		}
+		
+		
 		
 		boolean action = false;
 		

@@ -16,10 +16,10 @@ public class AdminCommands {
 	public static boolean doDebugMode(Player player, String command) {
 		String split[] = command.split(" ");
 		if (command.toLowerCase().contains("/debug")) {
-			if (split.length == 3) {
+			if (split.length == 2) {
 				DebugMode mode = null;
 				for (DebugMode m : DebugMode.values()) {
-					if (split[2].equalsIgnoreCase(m.name())) {
+					if (split[1].equalsIgnoreCase(m.name())) {
 						mode = m;
 						break;
 					}
@@ -36,7 +36,7 @@ public class AdminCommands {
 					modes += m.name().toLowerCase() + ", ";
 				}
 				modes.substring(0, modes.length() - 3);
-				player.sendMessage(LocaleParser.getTextKey("AdminControlsDebugMode", modes));
+				player.sendMessage(LocaleParser.getTextKey("AdminControlsValidDebugModes", modes));
 			}
 			return true;
 		}

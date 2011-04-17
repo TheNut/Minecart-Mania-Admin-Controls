@@ -28,9 +28,6 @@ commands:
   clearallcarts:
     description: Removes all minecarts from the server
     usage: /<command> <player>
-  reloadconfig:
-    description: Reloads the configuration for the plugin
-    usage: /<command> <plugin>
   setconfigkey:
     description: Sets the given configuration key to the given value
     usage: /<command> <key> <value>

@@ -8,22 +8,22 @@ import com.afforess.minecartmaniacore.MinecartManiaWorld;
 
 public class AdminControlsPlayerListener extends PlayerListener{
 	
-    public void onPlayerInteract(PlayerInteractEvent event) {
-    	if (event.isCancelled()) {
+	public void onPlayerInteract(PlayerInteractEvent event) {
+		if (event.isCancelled()) {
 			return;
 		}
-    	if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
-    		return;
-    	}
-    	if ((Item)MinecartManiaWorld.getConfigurationValue("MinecartTrackAdjuster") == null) {
-    		return;
-    	}
-    	if (event.getItem() == null) {
-    		return;
-    	}
-    	int id = event.getItem().getTypeId();
-    	int data = Item.getItem(id).size() == 1 ? 0 : event.getItem().getDurability();
-    	Item holding = Item.getItem(id, data);
+		if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+			return;
+		}
+		if ((Item)MinecartManiaWorld.getConfigurationValue("MinecartTrackAdjuster") == null) {
+			return;
+		}
+		if (event.getItem() == null) {
+			return;
+		}
+		int id = event.getItem().getTypeId();
+		int data = Item.getItem(id).size() == 1 ? 0 : event.getItem().getDurability();
+		Item holding = Item.getItem(id, data);
 		if (holding.equals((Item)MinecartManiaWorld.getConfigurationValue("MinecartTrackAdjuster"))) {
 			if (event.getClickedBlock() != null && event.getClickedBlock().getTypeId() == Item.RAILS.getId()) {
 				int oldData = event.getClickedBlock().getData();
@@ -33,5 +33,5 @@ public class AdminControlsPlayerListener extends PlayerListener{
 				event.setCancelled(true);
 			}
 		}
-    }
+	}
 }
