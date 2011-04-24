@@ -1,6 +1,5 @@
 package com.afforess.minecartmaniaadmincontrols;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -14,6 +13,7 @@ import com.afforess.minecartmanaiaadmincontrols.permissions.PermissionBlockListe
 import com.afforess.minecartmanaiaadmincontrols.permissions.PermissionManager;
 import com.afforess.minecartmaniaadmincontrols.commands.Commands;
 import com.afforess.minecartmaniacore.MinecartManiaCore;
+import com.afforess.minecartmaniacore.config.LocaleParser;
 import com.afforess.minecartmaniacore.config.MinecartManiaConfigurationParser;
 import com.afforess.minecartmaniacore.debug.MinecartManiaLogger;
 import com.afforess.minecartmaniacore.utils.StringUtils;
@@ -38,6 +38,8 @@ public class MinecartManiaAdminControls extends JavaPlugin{
 		getServer().getPluginManager().registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Priority.Normal, this);
 		getServer().getPluginManager().registerEvent(Event.Type.VEHICLE_ENTER, vehicleListener, Priority.Normal, this);
 		getServer().getPluginManager().registerEvent(Event.Type.CUSTOM_EVENT, timer, Priority.Normal, this);
+		getServer().getPluginManager().registerEvent(Event.Type.SIGN_CHANGE, permissionListener, Priority.Normal, this);
+		getServer().getPluginManager().registerEvent(Event.Type.BLOCK_BREAK, permissionListener, Priority.Normal, this);
 		
 		if (permissions.isHasPermissions()) {
 			//getServer().getPluginManager().registerEvent(Event.Type.SIGN_CHANGE, permissionListener, Priority.Normal, this);
@@ -74,19 +76,17 @@ public class MinecartManiaAdminControls extends JavaPlugin{
 		
 		if (Commands.isAdminCommand(commandPrefix)) {
 			if (!permissions.canUseAdminCommand(player, commandPrefix)) {
-				player.sendMessage(ChatColor.RED + "You do not have access to that command");
+				player.sendMessage(LocaleParser.getTextKey("LackPermissionForCommand"));
 				return true;
 			}
 		}
 		else {
 			if (!permissions.canUseCommand(player, commandPrefix)) {
-				player.sendMessage(ChatColor.RED + "You do not have access to that command");
+				player.sendMessage(LocaleParser.getTextKey("LackPermissionForCommand"));
 				return true;
 			}
 		}
-		
-		
-		
+
 		boolean action = false;
 		
 		if (player.isOp()) {

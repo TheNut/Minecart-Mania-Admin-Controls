@@ -24,6 +24,9 @@ public class AdminControlsPlayerListener extends PlayerListener{
 		int id = event.getItem().getTypeId();
 		int data = Item.getItem(id).size() == 1 ? 0 : event.getItem().getDurability();
 		Item holding = Item.getItem(id, data);
+		if (holding == null) {
+			return;
+		}
 		if (holding.equals((Item)MinecartManiaWorld.getConfigurationValue("MinecartTrackAdjuster"))) {
 			if (event.getClickedBlock() != null && event.getClickedBlock().getTypeId() == Item.RAILS.getId()) {
 				int oldData = event.getClickedBlock().getData();

@@ -34,6 +34,26 @@ public class PermissionManager {
 		return this.handler != null;
 	}
 	
+	public boolean canCreateSign(Player player, String sign) {
+		if (player.isOp()) {
+			return true;
+		}
+		if (isHasPermissions()) {
+			return this.handler.permission(player, "minecartmania.signs.create." + sign);
+		}
+		return true;
+	}
+	
+	public boolean canBreakSign(Player player, String sign) {
+		if (player.isOp()) {
+			return true;
+		}
+		if (isHasPermissions()) {
+			return this.handler.permission(player, "minecartmania.signs.break." + sign);
+		}
+		return true;
+	}
+	
 	public boolean canUseAdminCommand(Player player, String command) {
 		if (player.isOp()) {
 			return true;
