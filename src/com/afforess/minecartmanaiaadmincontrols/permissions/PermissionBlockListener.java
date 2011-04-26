@@ -23,6 +23,9 @@ public class PermissionBlockListener extends BlockListener{
 		if (event.isCancelled()) {
 			return;
 		}
+		if (!(event.getBlock().getState() instanceof org.bukkit.block.Sign)) {
+			return;
+		}
 		String[] old = new String[4];
 		for (int i = 0; i < 4; i++) {
 			old[i] = ((org.bukkit.block.Sign)event.getBlock().getState()).getLine(i);
@@ -37,25 +40,23 @@ public class PermissionBlockListener extends BlockListener{
 			SignAction action = i.next();
 			if (!MinecartManiaAdminControls.permissions.canCreateSign(player, action.getName())) {
 				event.setCancelled(true);
-				for (int j = 0; j < 4; j++) {
-					((org.bukkit.block.Sign)event.getBlock().getState()).setLine(j, old[j]);
-				}
 				player.sendMessage(LocaleParser.getTextKey("LackPermissionForSign", action.getFriendlyName()));
 				SignManager.updateSign(sign.getLocation(), null);
-				return;
+				break;
 			}
 		}
 		
-		if (sign instanceof MinecartTypeSign) {
+		if (!event.isCancelled() && sign instanceof MinecartTypeSign) {
 			if (!MinecartManiaAdminControls.permissions.canCreateSign(player, "minecarttypesign")) {
 				player.sendMessage(LocaleParser.getTextKey("LackPermissionForSign", "Minecart Type Sign"));
 				SignManager.updateSign(sign.getLocation(), null);
-				for (int j = 0; j < 4; j++) {
-					((org.bukkit.block.Sign)event.getBlock().getState()).setLine(j, old[j]);
-				}
 				event.setCancelled(true);
-				return;
 			}
+		}
+		//sign.addBrackets();
+		for (int j = 0; j < 4; j++) {
+			event.setLine(j, sign.getLine(j));
+			((org.bukkit.block.Sign)event.getBlock().getState()).setLine(j, old[j]);
 		}
 	}
 	
