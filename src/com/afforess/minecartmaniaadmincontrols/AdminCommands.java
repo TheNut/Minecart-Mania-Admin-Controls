@@ -42,6 +42,7 @@ public class AdminCommands {
 		}
 		return false;
 	}
+	
 	public static boolean doEjectPlayer(Player player, String command) {
 		String split[] = command.split(" ");
 		if (command.toLowerCase().contains("/eject")) {

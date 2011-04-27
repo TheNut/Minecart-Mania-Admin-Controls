@@ -1,4 +1,6 @@
 package com.afforess.minecartmaniaadmincontrols;
+import org.bukkit.Chunk;
+
 import com.afforess.minecartmaniacore.MinecartManiaMinecart;
 import com.afforess.minecartmaniacore.MinecartManiaStorageCart;
 import com.afforess.minecartmaniacore.event.MinecartManiaListener;
@@ -34,6 +36,7 @@ public class MinecartTimer extends MinecartManiaListener{
 					}
 					else {
 						minecart.kill();
+						unload(minecart);
 					}
 				}
 			}
@@ -47,6 +50,18 @@ public class MinecartTimer extends MinecartManiaListener{
 		else if (timer == 0) {
 			if (kill) {
 				minecart.kill();
+				unload(minecart);
+			}
+		}
+	}
+	
+	private static void unload(MinecartManiaMinecart minecart)  {
+		int range = 3;
+		Chunk current = minecart.getLocation().getBlock().getChunk();
+		for (int dx = -(range); dx <= range; dx++){
+			for (int dz = -(range); dz <= range; dz++){
+				Chunk chunk = current.getWorld().getChunkAt(current.getX() + dx, current.getZ() + dz);
+				chunk.getWorld().unloadChunkRequest(chunk.getX(), chunk.getZ());
 			}
 		}
 	}

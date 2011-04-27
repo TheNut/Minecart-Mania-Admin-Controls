@@ -89,29 +89,26 @@ public class MinecartManiaAdminControls extends JavaPlugin{
 
 		boolean action = false;
 		
-		if (player.isOp()) {
-			if (!action) {
-				action = AdminCommands.doEjectPlayer(player, command);
-			}
-			
-			if (!action) {
-				action = AdminCommands.doPermEjectPlayer(player, command);
-			}
-			
-			if (!action) {
-				action = AdminCommands.doKillCarts(player, command);
-			}
-
-			if (!action) {
-				action = AdminCommands.setConfigurationKey(player, command);
-			}
-			
-			if (!action) {
-				action = AdminCommands.doDebugMode(player, command);
-			}
+		if (!action) {
+			action = AdminCommands.doEjectPlayer(player, command);
 		}
 		
+		if (!action) {
+			action = AdminCommands.doPermEjectPlayer(player, command);
+		}
 		
+		if (!action) {
+			action = AdminCommands.doKillCarts(player, command);
+		}
+
+		if (!action) {
+			action = AdminCommands.setConfigurationKey(player, command);
+		}
+		
+		if (!action) {
+			action = AdminCommands.doDebugMode(player, command);
+		}
+
 		if (!action) {
 			action = PlayerCommands.getConfigurationKey(player, command);
 		}

@@ -15,7 +15,8 @@ public enum Commands {
 	TruCompass(false),
 	St(false),
 	Throttle(false),
-	Momentum(false);
+	Momentum(false),
+	ForceRedraw(true);
 	
 	
 	private boolean admin = false;
