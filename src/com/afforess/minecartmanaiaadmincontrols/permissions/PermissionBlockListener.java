@@ -33,6 +33,7 @@ public class PermissionBlockListener extends BlockListener{
 		}
 		
 		Sign sign = SignManager.getSignAt(event.getBlock().getLocation());
+		System.out.println("Sign: "+ sign.getLines());
 		Collection<SignAction> actions = sign.getSignActions();
 		Iterator<SignAction> i = actions.iterator();
 		Player player = event.getPlayer();

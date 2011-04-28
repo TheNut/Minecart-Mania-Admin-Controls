@@ -65,6 +65,9 @@ public class MinecartManiaAdminControls extends JavaPlugin{
 		String command;
 		String commandPrefix;
 		if (commandLabel.equals("mm")) {
+			if (args == null || args.length == 0) {
+				return false;
+			}
 			commandPrefix = args[0];
 			command = "/" + StringUtils.join(args, 0);
 		}
