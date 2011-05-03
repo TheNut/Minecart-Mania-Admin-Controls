@@ -3,8 +3,8 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerListener;
 
-import com.afforess.minecartmaniacore.Item;
-import com.afforess.minecartmaniacore.MinecartManiaWorld;
+import com.afforess.minecartmaniacore.world.Item;
+import com.afforess.minecartmaniacore.world.MinecartManiaWorld;
 
 public class AdminControlsPlayerListener extends PlayerListener{
 	

@@ -6,8 +6,8 @@ import java.util.List;
 import org.bukkit.entity.Player;
 
 import com.afforess.minecartmaniacore.MinecartManiaCore;
-import com.afforess.minecartmaniacore.MinecartManiaMinecart;
-import com.afforess.minecartmaniacore.MinecartManiaWorld;
+import com.afforess.minecartmaniacore.minecart.MinecartManiaMinecart;
+import com.afforess.minecartmaniacore.world.MinecartManiaWorld;
 import com.afforess.minecartmaniacore.config.LocaleParser;
 import com.afforess.minecartmaniacore.debug.DebugMode;
 import com.afforess.minecartmaniacore.utils.StringUtils;
@@ -128,6 +128,8 @@ public class AdminCommands {
 		
 		if (type != -1) {
 			int count = 0;
+			
+			MinecartManiaWorld.pruneMinecarts();
 			
 			ArrayList<MinecartManiaMinecart> minecartList = MinecartManiaWorld.getMinecartManiaMinecartList();
 			for (MinecartManiaMinecart minecart : minecartList) {
