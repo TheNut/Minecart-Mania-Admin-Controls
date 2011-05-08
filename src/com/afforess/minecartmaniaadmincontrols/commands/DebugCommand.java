@@ -24,7 +24,7 @@ public class DebugCommand extends MinecartManiaCommand{
 		if (args.length == 1) {
 			DebugMode mode = null;
 			for (DebugMode m : DebugMode.values()) {
-				if (args[1].equalsIgnoreCase(m.name())) {
+				if (args[0].equalsIgnoreCase(m.name())) {
 					mode = m;
 					break;
 				}
