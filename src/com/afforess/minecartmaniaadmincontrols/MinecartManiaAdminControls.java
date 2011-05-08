@@ -1,22 +1,22 @@
 package com.afforess.minecartmaniaadmincontrols;
 
+import java.util.Arrays;
+
 import org.bukkit.Server;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.afforess.minecartmanaiaadmincontrols.permissions.PermissionBlockListener;
-import com.afforess.minecartmanaiaadmincontrols.permissions.PermissionManager;
-import com.afforess.minecartmaniaadmincontrols.commands.Commands;
+import com.afforess.minecartmaniaadmincontrols.commands.Command;
+import com.afforess.minecartmaniaadmincontrols.commands.CommandType;
+import com.afforess.minecartmaniaadmincontrols.permissions.PermissionBlockListener;
+import com.afforess.minecartmaniaadmincontrols.permissions.PermissionManager;
 import com.afforess.minecartmaniacore.MinecartManiaCore;
 import com.afforess.minecartmaniacore.config.LocaleParser;
 import com.afforess.minecartmaniacore.config.MinecartManiaConfigurationParser;
 import com.afforess.minecartmaniacore.debug.MinecartManiaLogger;
-import com.afforess.minecartmaniacore.utils.StringUtils;
 
 public class MinecartManiaAdminControls extends JavaPlugin{
 
@@ -40,7 +40,6 @@ public class MinecartManiaAdminControls extends JavaPlugin{
 		getServer().getPluginManager().registerEvent(Event.Type.CUSTOM_EVENT, timer, Priority.Normal, this);
 		getServer().getPluginManager().registerEvent(Event.Type.SIGN_CHANGE, permissionListener, Priority.Normal, this);
 		getServer().getPluginManager().registerEvent(Event.Type.BLOCK_BREAK, permissionListener, Priority.Normal, this);
-		
 		if (permissions.isHasPermissions()) {
 			//getServer().getPluginManager().registerEvent(Event.Type.SIGN_CHANGE, permissionListener, Priority.Normal, this);
 		}
@@ -52,89 +51,48 @@ public class MinecartManiaAdminControls extends JavaPlugin{
 		
 	}
 	
-	//TODO split this into seperate classes, e.g command executers?
-	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		if (!(sender instanceof Player)) {
-			return false;
-		}
-		//if (!commandLabel.equals("mm")) {
-		//	return false;
-		//}
-		
-		Player player = (Player)sender;
-		String command;
+	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String commandLabel, String[] args) {
 		String commandPrefix;
 		if (commandLabel.equals("mm")) {
 			if (args == null || args.length == 0) {
 				return false;
 			}
 			commandPrefix = args[0];
-			command = "/" + StringUtils.join(args, 0);
+			if (args.length > 1) {
+				args = Arrays.copyOfRange(args, 1, args.length);
+			}
+			else {
+				String[] temp = {};
+				args = temp;
+			}
 		}
 		else {
 			commandPrefix = commandLabel;
-			command = "/" + commandLabel + " " + StringUtils.join(args, 0);
 		}
 		commandPrefix = commandPrefix.toLowerCase();
 		
-		if (Commands.isAdminCommand(commandPrefix)) {
-			if (!permissions.canUseAdminCommand(player, commandPrefix)) {
-				player.sendMessage(LocaleParser.getTextKey("LackPermissionForCommand"));
-				return true;
-			}
+		System.out.println("Command: " + commandPrefix);
+		Command command = getMinecartManiaCommand(commandPrefix);
+		if (command == null) {
+			return false;
+		}
+		if (command.canExecuteCommand(sender)) {
+			command.onCommand(sender, cmd, commandPrefix, args);
 		}
 		else {
-			if (!permissions.canUseCommand(player, commandPrefix)) {
-				player.sendMessage(LocaleParser.getTextKey("LackPermissionForCommand"));
-				return true;
+			sender.sendMessage(LocaleParser.getTextKey("LackPermissionForCommand"));
+		}
+
+	
+		return true;
+	}
+	
+	public static Command getMinecartManiaCommand(String command) {
+		for (CommandType c : CommandType.values()){
+			if (c.toString().equalsIgnoreCase(command)) {
+				return c.getCommand();
 			}
 		}
-
-		boolean action = false;
-		
-		if (!action) {
-			action = AdminCommands.doEjectPlayer(player, command);
-		}
-		
-		if (!action) {
-			action = AdminCommands.doPermEjectPlayer(player, command);
-		}
-		
-		if (!action) {
-			action = AdminCommands.doKillCarts(player, command);
-		}
-
-		if (!action) {
-			action = AdminCommands.setConfigurationKey(player, command);
-		}
-		
-		if (!action) {
-			action = AdminCommands.doDebugMode(player, command);
-		}
-
-		if (!action) {
-			action = PlayerCommands.getConfigurationKey(player, command);
-		}
-		
-		if (!action) {
-			action = PlayerCommands.doStationCommand(player, command);
-		}
-		
-		if (!action) {
-			action = PlayerCommands.listConfigurationKeys(player, command);
-		}
-		
-		if (!action) {
-			action = PlayerCommands.doMomentumCommand(player, command);
-		}
-		
-		if (!action) {
-			action = PlayerCommands.doCompass(player, command);
-		}
-		
-		if (!action) {
-			action = PlayerCommands.doThrottle(player, command);
-		}
-		return action;
+		return null;
 	}
 }

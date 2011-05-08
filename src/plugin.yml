@@ -7,46 +7,13 @@ commands:
   mm:
     description: Base MM command class
     usage: /<command>
-  eject:
-    description: Ejects the specified player from a minecart, if they are in one
-    usage: /<command> <player>
-  permeject:
-    description: Ejects the specified player from a minecart, if they are in one, and prevents them from re-entering until the command is used by an admin again.
-    usage: /<command> <player>
-  clearemptycarts:
-    description: Removes all empty minecarts from the server
-    usage: /<command>
-  clearpoweredcarts:
-    description: Removes all powered minecarts from the server
-    usage: /<command>
-  clearoccupiedcarts:
-    description: Removes all minecarts that have a passenger from the server, dumping the passenger out where they stand
-    usage: /<command>
-  clearstoragecarts:
-    description: Removes all storage minecarts from the server
-    usage: /<command>
-  clearallcarts:
-    description: Removes all minecarts from the server
-    usage: /<command> <player>
-  setconfigkey:
-    description: Sets the given configuration key to the given value
-    usage: /<command> <key> <value>
-  getconfigkey:
-    description: Gets the value from the given configuration key
-    usage: /<command> <key>
-  listconfigkeys:
-    description: Lists all set configuration keys in a page - by - page format
-    usage: /<command> <page>
-  momentum:
-    description: Shows the user how much momentum the vehicle they are in has
-    usage: /<command>
   st:
     description: Sets the station value, for any station intersection the players may pass in a minecart
-    usage: /<command> <flags>
+    usage: /<command>
   trucompass:
     description: Returns the true compass direction for the direction that the player is facing
     usage: /<command>
   throttle:
     description: Used in autocart to control the momentum of a minecart.
-    usage: /<command> <percent>
+    usage: /<command> percent
   

@@ -21,15 +21,15 @@ public class VehicleControl extends VehicleListener{
 	}
 	
 	public static int getMinecartKillTimer() {
-		return MinecartManiaWorld.getIntValue(MinecartManiaWorld.getConfigurationValue("EmptyMinecartKillTimer"));
+		return (Integer)MinecartManiaWorld.getConfigurationValue("EmptyMinecartKillTimer");
 	}
 	
 	public static int getStorageMinecartKillTimer() {
-		return MinecartManiaWorld.getIntValue(MinecartManiaWorld.getConfigurationValue("EmptyStorageMinecartKillTimer"));
+		return (Integer)MinecartManiaWorld.getConfigurationValue("EmptyStorageMinecartKillTimer");
 	}
 	
 	public static int getPoweredMinecartKillTimer() {
-		return MinecartManiaWorld.getIntValue(MinecartManiaWorld.getConfigurationValue("EmptyPoweredMinecartKillTimer"));
+		return (Integer)MinecartManiaWorld.getConfigurationValue("EmptyPoweredMinecartKillTimer");
 	}
 	
 	 public void onVehicleEnter(VehicleEnterEvent event) {

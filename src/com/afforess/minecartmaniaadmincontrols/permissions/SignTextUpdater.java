@@ -1,4 +1,4 @@
-package com.afforess.minecartmanaiaadmincontrols.permissions;
+package com.afforess.minecartmaniaadmincontrols.permissions;
 
 import org.bukkit.Location;
 
