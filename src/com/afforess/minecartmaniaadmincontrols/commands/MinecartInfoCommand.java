@@ -9,6 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.afforess.minecartmaniacore.config.LocaleParser;
 import com.afforess.minecartmaniacore.minecart.MinecartManiaMinecart;
 import com.afforess.minecartmaniacore.world.MinecartManiaWorld;
 
@@ -65,16 +66,16 @@ public class MinecartInfoCommand extends MinecartManiaCommand{
 			}
 		}
 		
-		sender.sendMessage("----------------Minecart Mania Information---------------");
-		sender.sendMessage("Total Minecarts: " + total);
-		sender.sendMessage("Empty Minecarts: " + empty);
-		sender.sendMessage("Occupied Minecarts: " + passenger);
-		sender.sendMessage("Powered Minecarts: " + powered);
-		sender.sendMessage("Storage Minecarts: " + storage);
-		sender.sendMessage("Moving Minecarts: " + moving);
-		sender.sendMessage("Stalled Minecarts: " + unmoving);
+		sender.sendMessage(LocaleParser.getTextKey("AdminControlsMMHeader"));
+		sender.sendMessage(LocaleParser.getTextKey("AdminControlsInfoTotalMinecarts", total));
+		sender.sendMessage(LocaleParser.getTextKey("AdminControlsInfoEmptyMinecarts", empty));
+		sender.sendMessage(LocaleParser.getTextKey("AdminControlsInfoOccupiedMinecarts", passenger));
+		sender.sendMessage(LocaleParser.getTextKey("AdminControlsInfoPoweredMinecarts", powered));
+		sender.sendMessage(LocaleParser.getTextKey("AdminControlsInfoStorageMinecarts", storage));
+		sender.sendMessage(LocaleParser.getTextKey("AdminControlsInfoMovingMinecarts", moving));
+		sender.sendMessage(LocaleParser.getTextKey("AdminControlsInfoStalledMinecarts", unmoving));
 		if (most != null) {
-			sender.sendMessage("Largest Minecart Owner: " + most + " (" + owners.get(most) + ")");
+			sender.sendMessage(LocaleParser.getTextKey("AdminControlsInfoMostOwnedMinecarts", most, owners.get(most)));
 		}
 		
 		return true;

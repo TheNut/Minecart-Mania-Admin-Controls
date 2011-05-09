@@ -71,7 +71,6 @@ public class MinecartManiaAdminControls extends JavaPlugin{
 		}
 		commandPrefix = commandPrefix.toLowerCase();
 		
-		System.out.println("Command: " + commandPrefix);
 		Command command = getMinecartManiaCommand(commandPrefix);
 		if (command == null) {
 			return false;

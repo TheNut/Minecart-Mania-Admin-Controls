@@ -15,6 +15,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import com.afforess.minecartmaniacore.MinecartManiaCore;
+import com.afforess.minecartmaniacore.config.LocaleParser;
 import com.afforess.minecartmaniacore.minecart.MinecartManiaMinecart;
 import com.afforess.minecartmaniacore.world.MinecartManiaWorld;
 
@@ -63,7 +64,7 @@ public class RedrawMinecartCommand extends MinecartManiaCommand{
 				}
 			}
 		}
-		sender.sendMessage("All minecarts redrawn");
+		sender.sendMessage(LocaleParser.getTextKey("AdminControlsRedrawMinecarts"));
 		return true;
 	}
 

@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
+import com.afforess.minecartmaniacore.config.LocaleParser;
 import com.afforess.minecartmaniacore.minecart.MinecartManiaMinecart;
 import com.afforess.minecartmaniacore.world.MinecartManiaWorld;
 
@@ -37,7 +38,7 @@ public class HideMinecartCommand extends MinecartManiaCommand{
 				player.getHandle().netServerHandler.sendPacket(packet);
 			}
 		}
-		sender.sendMessage("All minecarts hidden");
+		sender.sendMessage(LocaleParser.getTextKey("AdminControlsHideMinecarts"));
 		return true;
 	}
 
