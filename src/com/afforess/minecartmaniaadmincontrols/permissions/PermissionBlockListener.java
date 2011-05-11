@@ -32,7 +32,7 @@ public class PermissionBlockListener extends BlockListener{
 			((org.bukkit.block.Sign)event.getBlock().getState()).setLine(i, event.getLine(i));
 		}
 		
-		Sign sign = SignManager.getSignAt(event.getBlock().getLocation());
+		Sign sign = SignManager.getSignAt(event.getBlock().getLocation(), event.getPlayer());
 		Collection<SignAction> actions = sign.getSignActions();
 		Iterator<SignAction> i = actions.iterator();
 		Player player = event.getPlayer();

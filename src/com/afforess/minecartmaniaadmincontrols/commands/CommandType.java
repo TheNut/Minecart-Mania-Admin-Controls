@@ -3,7 +3,7 @@ package com.afforess.minecartmaniaadmincontrols.commands;
 import java.lang.reflect.Constructor;
 
 public enum CommandType {
-	MM(false, MinecartManiaBaseCommand.class),
+	MM(false, MinecartInfoCommand.class),
 	Debug(true, DebugCommand.class),
 	Eject(true, EjectCommand.class),
 	PermEject(true, PermanentEjectCommand.class),
