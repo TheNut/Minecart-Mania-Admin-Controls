@@ -13,6 +13,7 @@ import org.bukkit.craftbukkit.entity.CraftMinecart;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import com.afforess.minecartmaniacore.MinecartManiaCore;
 import com.afforess.minecartmaniacore.config.LocaleParser;
@@ -43,6 +44,8 @@ public class RedrawMinecartCommand extends MinecartManiaCommand{
 				Packet packet = new Packet29DestroyEntity(minecart.minecart.getEntityId());
 				player.getHandle().netServerHandler.sendPacket(packet);
 				packet = null;
+				final Vector motion = minecart.minecart.getVelocity();
+				minecart.stopCart();
 				if (minecart.isStandardMinecart()) {
 					packet = new Packet23VehicleSpawn(((CraftMinecart)minecart.minecart).getHandle(), 10);
 				}
@@ -56,10 +59,11 @@ public class RedrawMinecartCommand extends MinecartManiaCommand{
 				if (passenger != null) {
 					Runnable update = new Runnable() {
 						public void run() {
+							minecart.minecart.setVelocity(motion);
 							minecart.minecart.setPassenger(passenger);
 						}
 					};
-					Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(MinecartManiaCore.instance, update, 10);
+					Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(MinecartManiaCore.instance, update);
 					
 				}
 			}
