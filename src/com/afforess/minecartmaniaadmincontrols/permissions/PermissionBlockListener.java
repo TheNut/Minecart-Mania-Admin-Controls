@@ -11,6 +11,8 @@ import org.bukkit.event.block.SignChangeEvent;
 import com.afforess.minecartmaniaadmincontrols.MinecartManiaAdminControls;
 import com.afforess.minecartmaniacore.MinecartManiaCore;
 import com.afforess.minecartmaniacore.config.LocaleParser;
+import com.afforess.minecartmaniacore.event.MinecartManiaSignFoundEvent;
+import com.afforess.minecartmaniacore.event.MinecartManiaSignUpdatedEvent;
 import com.afforess.minecartmaniacore.signs.MinecartTypeSign;
 import com.afforess.minecartmaniacore.signs.Sign;
 import com.afforess.minecartmaniacore.signs.SignAction;
@@ -26,13 +28,16 @@ public class PermissionBlockListener extends BlockListener{
 		if (!(event.getBlock().getState() instanceof org.bukkit.block.Sign)) {
 			return;
 		}
+		Sign sign = SignManager.getSignAt(event.getBlock().getLocation(), event.getPlayer());
 		String[] old = new String[4];
 		for (int i = 0; i < 4; i++) {
 			old[i] = ((org.bukkit.block.Sign)event.getBlock().getState()).getLine(i);
-			((org.bukkit.block.Sign)event.getBlock().getState()).setLine(i, event.getLine(i));
+			sign.setLine(i, event.getLine(i), false);
 		}
 		
-		Sign sign = SignManager.getSignAt(event.getBlock().getLocation(), event.getPlayer());
+		MinecartManiaSignFoundEvent mmsfe = new MinecartManiaSignUpdatedEvent(sign, event.getPlayer());
+		MinecartManiaCore.server.getPluginManager().callEvent(mmsfe);
+		
 		Collection<SignAction> actions = sign.getSignActions();
 		Iterator<SignAction> i = actions.iterator();
 		Player player = event.getPlayer();
@@ -53,10 +58,9 @@ public class PermissionBlockListener extends BlockListener{
 				event.setCancelled(true);
 			}
 		}
-		//sign.addBrackets();
+		
 		for (int j = 0; j < 4; j++) {
-			event.setLine(j, sign.getLine(j));
-			((org.bukkit.block.Sign)event.getBlock().getState()).setLine(j, old[j]);
+			sign.setLine(j, old[j], false);
 		}
 	}
 	
