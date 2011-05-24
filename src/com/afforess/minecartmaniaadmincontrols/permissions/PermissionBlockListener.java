@@ -3,6 +3,7 @@ package com.afforess.minecartmaniaadmincontrols.permissions;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockListener;
@@ -36,7 +37,8 @@ public class PermissionBlockListener extends BlockListener{
 		}
 		
 		MinecartManiaSignFoundEvent mmsfe = new MinecartManiaSignUpdatedEvent(sign, event.getPlayer());
-		MinecartManiaCore.server.getPluginManager().callEvent(mmsfe);
+		MinecartManiaCore.callEvent(mmsfe);
+		sign = mmsfe.getSign();
 		
 		Collection<SignAction> actions = sign.getSignActions();
 		Iterator<SignAction> i = actions.iterator();
@@ -59,8 +61,13 @@ public class PermissionBlockListener extends BlockListener{
 			}
 		}
 		
-		for (int j = 0; j < 4; j++) {
-			sign.setLine(j, old[j], false);
+		if (event.isCancelled()) {
+			for (int j = 0; j < 4; j++) {
+				sign.setLine(j, old[j], false);
+			}
+		}
+		else {
+			SignManager.updateSign(sign.getLocation(), sign);
 		}
 	}
 	
@@ -91,7 +98,7 @@ public class PermissionBlockListener extends BlockListener{
 			}
 		}
 		if (event.isCancelled()) {
-			MinecartManiaCore.server.getScheduler().scheduleSyncDelayedTask(MinecartManiaCore.instance, new SignTextUpdater(event.getBlock().getLocation()), 5);
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(MinecartManiaCore.getInstance(), new SignTextUpdater(event.getBlock().getLocation()), 5);
 		}
 	}
 }

@@ -63,7 +63,7 @@ public class RedrawMinecartCommand extends MinecartManiaCommand{
 							minecart.minecart.setPassenger(passenger);
 						}
 					};
-					Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(MinecartManiaCore.instance, update);
+					Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(MinecartManiaCore.getInstance(), update);
 					
 				}
 			}

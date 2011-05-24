@@ -34,7 +34,7 @@ public class MinecartManiaAdminControls extends JavaPlugin{
 		server = this.getServer();
 		description = this.getDescription();
 		permissions = new PermissionManager(getServer());
-		MinecartManiaConfigurationParser.read(description.getName() + "Configuration.xml", MinecartManiaCore.dataDirectory, new AdminControlsSettingParser());
+		MinecartManiaConfigurationParser.read(description.getName() + "Configuration.xml", MinecartManiaCore.getDataDirectoryRelativePath(), new AdminControlsSettingParser());
 		getServer().getPluginManager().registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Priority.Normal, this);
 		getServer().getPluginManager().registerEvent(Event.Type.VEHICLE_ENTER, vehicleListener, Priority.Normal, this);
 		getServer().getPluginManager().registerEvent(Event.Type.CUSTOM_EVENT, timer, Priority.Normal, this);
